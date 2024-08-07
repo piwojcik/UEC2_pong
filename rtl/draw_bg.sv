@@ -64,19 +64,7 @@ always_comb begin : bg_comb_blk
         else if (bg_in.hcount == 0)                // - left edge:
             rgb_nxt = 12'h0_f_0;                // - - make a green line.
         else if (bg_in.hcount == HOR_PIXELS - 1)   // - right edge:
-            rgb_nxt = 12'h0_0_f;                // - - make a blue line.
-            
-        else if ((bg_in.vcount >= 25 & bg_in.vcount <= 30 & bg_in.hcount >= 100 & bg_in.hcount <= 120) |
-                (bg_in.vcount >= 30 & bg_in.vcount <= 60 & bg_in.hcount >= 108 & bg_in.hcount <= 112) | 
-                (bg_in.vcount >=61 & bg_in.vcount <= 65 & bg_in.hcount >= 94 & bg_in.hcount <= 108) |
-                (bg_in.vcount >= 56 & bg_in.vcount <= 60 & bg_in.hcount >= 87 & bg_in.hcount <= 93))  
-            rgb_nxt = 12'h1_4_f; 
-        else if ((bg_in.vcount >= 25 & bg_in.vcount <= 30 & bg_in.hcount >= 145 & bg_in.hcount <= 165) |
-                (bg_in.vcount >= 30 & bg_in.vcount <= 60 & bg_in.hcount >= 153 & bg_in.hcount <= 157) | 
-                (bg_in.vcount >=61 & bg_in.vcount <= 65 & bg_in.hcount >= 137 & bg_in.hcount <= 153) |
-                (bg_in.vcount >= 56 & bg_in.vcount <= 60 & bg_in.hcount >= 130 & bg_in.hcount <= 136))  
-            rgb_nxt = 12'h1_4_f; 
-
+            rgb_nxt = 12'h0_0_f;                // - - make a blue line.           
         else                                    // The rest of active display pixels:
             rgb_nxt = 12'h8_8_8;                // - fill with gray.
     end

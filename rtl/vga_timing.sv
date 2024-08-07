@@ -21,14 +21,6 @@
  /**
   * Local variables and signals
   */
- localparam HTOTAL = 1056;
- localparam VTOTAL = 628;
- localparam HBLKSTART = 800;
- localparam VBLKSTART = 600;
- localparam HSYNCSTART = 840;
- localparam HSYNCTIME= 128;
- localparam VSYNCSTART = 601;
- localparam VSYNCTIME= 4;
  
  logic [10:0] vcount_nxt;
  logic vsync_nxt;
@@ -122,12 +114,6 @@
         end
      end
  end
- 
- 
- 
- 
- // Add your code here.
- 
  
  endmodule
  

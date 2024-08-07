@@ -61,6 +61,4 @@ draw_bg u_draw_bg (
 );
 
 
-
-
 endmodule
