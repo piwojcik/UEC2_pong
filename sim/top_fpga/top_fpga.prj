@@ -1,0 +1,58 @@
+# Copyright (C) 2023  AGH University of Science and Technology
+# MTM UEC2
+# Author: Piotr Kaczmarczyk
+#
+# Description:
+# List of files defining the modules used during the test.
+# Specify the file paths relative to THIS file.
+# For syntax detail see AMD Xilinx UG 900:
+# https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
+
+
+sv work ../../rtl/vga_pkg.sv \
+        ../../rtl/vga_timing.sv \
+        ../../rtl/draw_bg.sv \
+        ../../rtl/top_vga.sv \
+        ../../rtl/vga_if.sv \
+        ../../rtl/delay.sv \
+        ../../rtl/mouse/draw_mouse.sv \
+        ../../rtl/rect/draw_rect.sv \
+        ../../rtl/rect/draw_rect_ctl.sv \
+        ../../rtl/rect/image_rom.sv \
+        ../../rtl/char/draw_rect_char.sv \
+        ../../rtl/char/font_rom.sv \
+        ../../fpga/rtl/top_vga_basys3.sv \
+        ../../rtl/uart/top_uart.sv \
+        ../../rtl/char/char_rom_16x16.sv \
+        ../../rtl/uart/disp_hex_mux.sv \
+        ../../rtl/uart/uart_test.sv \
+        ../../rtl/uproc/decode.sv \
+        ../../rtl/uproc/top_micro.sv \
+        ../../rtl/uproc/disp_hex_mux16b.sv \
+        ../common/tiff_writer.sv \
+        top_fpga_tb.sv 
+
+vhdl work  ../../rtl/mouse/MouseCtl.vhd \
+           ../../rtl/mouse/MouseDisplay.vhd \
+           ../../rtl/mouse/Ps2Interface.vhd \
+
+# compile glbl module - required for IP simulation
+verilog work ../common/glbl.v \
+             ../../fpga/rtl/clk_wiz_0_clk_wiz.v \
+             ../../rtl/uart/debounce.v \
+             ../../rtl/uart/fifo.v \
+             ../../rtl/uart/flag_buf.v \
+             ../../rtl/uart/mod_m_counter.v \
+             ../../rtl/uart/uart_rx.v \
+             ../../rtl/uart/uart_tx.v \
+             ../../rtl/uart/uart.v \
+                ../../rtl/uproc/adder.v \
+                ../../rtl/uproc/alu.v \
+                ../../rtl/uproc/branch_ctl.v \
+                ../../rtl/uproc/control_unit.v \
+                ../../rtl/uproc/flopenr.v \
+                ../../rtl/uproc/imem.v \
+                ../../rtl/uproc/flopr.v \
+                ../../rtl/uproc/micro.v \
+                ../../rtl/uproc/mux2.v \
+                ../../rtl/uproc/regfile.v 
