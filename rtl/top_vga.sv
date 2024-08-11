@@ -27,8 +27,9 @@ module top_vga (
 /**
  * Local variables and signals
  */
-
-
+wire [7:0] char_pixel;
+wire [3:0] char_line;
+wire [6:0] char_code;
 /**
  * Signals assignments
  */
@@ -52,12 +53,30 @@ vga_timing u_vga_timing (
 );
 vga_intf bg_bus();
 
-
 draw_bg u_draw_bg (
     .clk,
     .rst,
      .bg_in (vgat_bus),
-     .bg_out (vgatop_bus)
+     .bg_out (bg_bus)
+);
+
+vga_intf draw_score_bus();
+
+draw_score u_draw_score (
+    .clk,
+    .rst,
+    .rect_in (bg_bus),
+    .rect_out (vgatop_bus),
+    .char_pixel(char_pixel),
+
+    .char_code,
+    .char_line(char_line)
+    );
+
+font_rom u_font_rom(
+    .clk,
+    .addr({char_code, char_line}),
+    .char_line_pixels(char_pixel)
 );
 
 
