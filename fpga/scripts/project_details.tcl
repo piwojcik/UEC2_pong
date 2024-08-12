@@ -36,6 +36,9 @@ set sv_files {
     ../rtl/draw_bg.sv
     ../rtl/vga_if.sv
     ../rtl/top_vga.sv
+    ../rtl/char/draw_score.sv
+    ../rtl/char/font_rom.sv
+    ../rtl/delay.sv
     rtl/top_vga_basys3.sv
 }
 
