@@ -64,14 +64,12 @@ top_vga_basys3 dut (
     .vgaRed(r),
     .vgaGreen(g),
     .vgaBlue(b),
-    .JA1(pclk),
-    .PS2Clk(),
-    .PS2Data()
+    .JA1(pclk)
 );
 
 tiff_writer #(
-    .XDIM(16'd1056),
-    .YDIM(16'd628),
+    .XDIM(16'd1344),
+    .YDIM(16'd806),
     .FILE_DIR("../../results")
 ) u_tiff_writer (
     .clk(pclk),

@@ -29,13 +29,13 @@ module top_vga_tb;
  *  Local parameters
  */
 
-localparam CLK_PERIOD = 25;     // 40 MHz 
-localparam CLK_PERIOD100MHZ = 10; //100 MHz
+localparam CLK_PERIOD = 15.384615384615;     // ok 65 MHz 
+// localparam CLK_PERIOD100MHZ = 10; //100 MHz
 /**
  * Local variables and signals
  */
 
-logic clk,clk100mhz, rst;
+logic clk, rst;
 wire vs, hs;
 wire [3:0] r, g, b;
 
@@ -45,13 +45,13 @@ wire [3:0] r, g, b;
 
 initial begin
     clk = 1'b0;
-    forever #(CLK_PERIOD100MHZ/2) clk = ~clk;
+    forever #(CLK_PERIOD/2) clk = ~clk;
 end
 
-initial begin
-    clk100mhz = 1'b0;
-    forever #(CLK_PERIOD100MHZ/2) clk100mhz = ~clk100mhz;
-end
+// initial begin
+//     clk100mhz = 1'b0;
+//     forever #(CLK_PERIOD100MHZ/2) clk100mhz = ~clk100mhz;
+// end
 
 /**
  * Submodules instances
@@ -59,20 +59,17 @@ end
 
 top_vga dut (
     .clk(clk),
-    .clk100mhz(clk100mhz),
     .rst(rst),
     .vs(vs),
     .hs(hs),
     .r(r),
     .g(g),
-    .b(b),
-    .ps2_clk(),
-    .ps2_data()
+    .b(b)
 );
 
 tiff_writer #(
-    .XDIM(16'd1056),
-    .YDIM(16'd628),
+    .XDIM(16'd1344),
+    .YDIM(16'd806),
     .FILE_DIR("../../results")
 ) u_tiff_writer (
     .clk(clk),
