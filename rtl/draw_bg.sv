@@ -32,11 +32,11 @@ import vga_pkg::*;
  */
 
 logic [11:0] rgb_nxt;
-
+logic [10:0] temp_var;
 /**
  * Internal logic
  */
-
+assign temp_var = vcount_in + 12;
 always_ff @(posedge clk) begin : bg_ff_blk
     if (rst) begin
         bg_out.vcount <= '0;
@@ -69,8 +69,8 @@ always_comb begin : bg_comb_blk
             rgb_nxt = 12'h0_f_0;                // - - make a green line.
         else if (hcount_in == HOR_PIXELS - 1)   // - right edge:
             rgb_nxt = 12'h0_0_f;                // - - make a blue line.     
-        else if (hcount_in >= 511 & hcount_in <= 513) begin
-            if ({vcount_in + 12}[5] == 0) begin
+        else if (hcount_in >= 511 & hcount_in <= 513) begin // middle line
+            if (temp_var[5] == 0) begin
                 rgb_nxt = 12'h0_7_0;
             end else begin
                 rgb_nxt = 12'h8_8_8; 
