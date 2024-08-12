@@ -14,8 +14,13 @@ module draw_bg (
     input  logic clk,
     input  logic rst,
 
-     vga_intf.in bg_in,
-     vga_intf.out bg_out
+    input  logic [10:0] vcount_in,
+    input  logic        vsync_in,
+    input  logic        vblnk_in,
+    input  logic [10:0] hcount_in,
+    input  logic        hsync_in,
+    input  logic        hblnk_in,
+    vga_intf.out bg_out
      
 );
 
@@ -27,7 +32,6 @@ import vga_pkg::*;
  */
 
 logic [11:0] rgb_nxt;
-
 
 /**
  * Internal logic
@@ -43,29 +47,35 @@ always_ff @(posedge clk) begin : bg_ff_blk
         bg_out.hblnk  <= '0;
         bg_out.rgb    <= '0;
     end else begin
-        bg_out.vcount <= bg_in.vcount;
-        bg_out.vsync  <= bg_in.vsync;
-        bg_out.vblnk  <= bg_in.vblnk;
-        bg_out.hcount <= bg_in.hcount;
-        bg_out.hsync  <= bg_in.hsync;
-        bg_out.hblnk  <= bg_in.hblnk;
+        bg_out.vcount <= vcount_in;
+        bg_out.vsync  <= vsync_in;
+        bg_out.vblnk  <= vblnk_in;
+        bg_out.hcount <= hcount_in;
+        bg_out.hsync  <= hsync_in;
+        bg_out.hblnk  <= hblnk_in;
         bg_out.rgb   <= rgb_nxt;
     end
 end
 
 always_comb begin : bg_comb_blk
-    if (bg_in.vblnk || bg_in.hblnk) begin             // Blanking region:
+    if (vblnk_in || hblnk_in) begin             // Blanking region:
         rgb_nxt = 12'h0_0_0;                   // - make it it black.
     end else begin                              // Active region:
-        if (bg_in.vcount == 0)                     // - top edge:
+        if (vcount_in == 0)                     // - top edge:
             rgb_nxt = 12'hf_f_0;                // - - make a yellow line.
-        else if (bg_in.vcount == VER_PIXELS - 1)   // - bottom edge:
+        else if (vcount_in == VER_PIXELS - 1)   // - bottom edge:
             rgb_nxt = 12'hf_0_0;                // - - make a red line.
-        else if (bg_in.hcount == 0)                // - left edge:
+        else if (hcount_in == 0)                // - left edge:
             rgb_nxt = 12'h0_f_0;                // - - make a green line.
-        else if (bg_in.hcount == HOR_PIXELS - 1)   // - right edge:
-            rgb_nxt = 12'h0_0_f;                // - - make a blue line.           
-        else                                    // The rest of active display pixels:
+        else if (hcount_in == HOR_PIXELS - 1)   // - right edge:
+            rgb_nxt = 12'h0_0_f;                // - - make a blue line.     
+        else if (hcount_in >= 511 & hcount_in <= 513) begin
+            if ({vcount_in + 12}[5] == 0) begin
+                rgb_nxt = 12'h0_7_0;
+            end else begin
+                rgb_nxt = 12'h8_8_8; 
+            end
+        end else                                    // The rest of active display pixels:
             rgb_nxt = 12'h8_8_8;                // - fill with gray.
     end
 end

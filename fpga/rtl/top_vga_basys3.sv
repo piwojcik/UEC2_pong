@@ -58,7 +58,7 @@ assign JA1 = pclk_mirror;
 
 ODDR pclk_oddr (
     .Q(pclk_mirror),
-    .C(pclk),
+    .C(clk65mhz),
     .CE(1'b1),
     .D1(1'b1),
     .D2(1'b0),

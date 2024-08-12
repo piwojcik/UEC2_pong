@@ -27,7 +27,10 @@ module top_vga (
 /**
  * Local variables and signals
  */
-
+// VGA signals from timing
+ wire [10:0] vcount_tim, hcount_tim;
+ wire vsync_tim, hsync_tim;
+ wire vblnk_tim, hblnk_tim;
 
 /**
  * Signals assignments
@@ -48,7 +51,12 @@ assign {r,g,b} = vgatop_bus.rgb;
 vga_timing u_vga_timing (
     .clk,
     .rst,
-     .vgat_out (vgat_bus)
+    .vcount (vcount_tim),
+    .vsync  (vsync_tim),
+    .vblnk  (vblnk_tim),
+    .hcount (hcount_tim),
+    .hsync  (hsync_tim),
+    .hblnk  (hblnk_tim)
 );
 vga_intf bg_bus();
 
@@ -56,8 +64,13 @@ vga_intf bg_bus();
 draw_bg u_draw_bg (
     .clk,
     .rst,
-     .bg_in (vgat_bus),
-     .bg_out (vgatop_bus)
+    .vcount_in (vcount_tim),
+    .vsync_in  (vsync_tim),
+    .vblnk_in  (vblnk_tim),
+    .hcount_in (hcount_tim),
+    .hsync_in  (hsync_tim),
+    .hblnk_in  (hblnk_tim),
+    .bg_out (vgatop_bus)
 );
 
 
