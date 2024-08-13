@@ -81,7 +81,7 @@ draw_score u_draw_score (
     .clk,
     .rst,
     .rect_in (bg_bus),
-    .rect_out (vgatop_bus),
+    .rect_out (draw_score_bus),
     .char_pixel(char_pixel),
 
     .char_code,
@@ -94,5 +94,11 @@ font_rom u_font_rom(
     .char_line_pixels(char_pixel)
 );
 
+draw_ball_pads u_draw_ball_pads(
+    .clk,
+    .rst,
+    .game_field_in(draw_score_bus),
+    .game_field_out(vgatop_bus)
+);
 
 endmodule

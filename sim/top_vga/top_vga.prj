@@ -24,6 +24,10 @@ sv work ../../rtl/vga_pkg.sv \
         ../../rtl/draw_bg.sv \
         ../../rtl/top_vga.sv \
         ../../rtl/vga_if.sv \
+        ../../rtl/delay.sv \
+        ../../rtl/char/draw_score.sv \
+        ../../rtl/char/font_rom.sv \
+        ../../rtl/graphic/draw_ball_pads.sv \
         ../../fpga/rtl/top_vga_basys3.sv \
         ../common/tiff_writer.sv \
         top_vga_tb.sv 
