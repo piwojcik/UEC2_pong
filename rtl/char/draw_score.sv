@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2023  AGH University of Science and Technology
+ * Copyright (C) 2023  AGH University of Science and Technologyy
  * MTM UEC2
  * Author: Jan Jurek
  *
