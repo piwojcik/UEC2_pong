@@ -15,7 +15,6 @@ localparam [9:0] y_ball_center = (VER_PIXELS - BALL_SIZE) / 2;
 
 logic [9:0] y_ball = y_ball_center; 
 logic [9:0] x_ball = x_ball_center;
-logic [9:0] y_ball_nxt, x_ball_nxt;
 
 // Granice prostokąta otaczającego koło
 logic [9:0] x_ball_left, x_ball_right, y_ball_top, y_ball_bottom; 
@@ -64,8 +63,54 @@ assign rom_bit = rom_data[rom_col];         // 1-bitowy sygnał danych ROM
 // Piksel wewnątrz koła
 assign ball_on = sq_ball_on & rom_bit;      // granice prostokąta AND bit danych ROM
 
+//Rysowanie padów
+logic [9:0] x_pad_right = 979; 
+logic [9:0] y_pad_right = 312;
+
+logic [9:0] x_pad_left = 30;
+logic [9:0] y_pad_left = 312;
+localparam PAD_HIGHT = 145; 
+localparam PAD_WIDTH = 15;   
+
+wire pad_on;
+assign pads_on = ((game_field_in.hcount >= x_pad_right) && (game_field_in.hcount <= x_pad_right + PAD_WIDTH)
+                  && (game_field_in.vcount >= y_pad_right) && (game_field_in.vcount <= y_pad_right + PAD_HIGHT))
+                  || ((game_field_in.hcount >= x_pad_left) && (game_field_in.hcount <= x_pad_left + PAD_WIDTH)
+                  && (game_field_in.vcount >= y_pad_left) && (game_field_in.vcount <= y_pad_left + PAD_HIGHT));
+
+
+delay #(
+    .WIDTH (22),
+    .CLK_DEL (2)
+) u_delay_count (
+        .clk,
+        .rst,
+        .din({game_field_in.vcount, game_field_in.hcount}),
+        .dout({game_field_out.vcount, game_field_out.hcount}) 
+    );
+
+delay #(
+    .WIDTH (4),
+    .CLK_DEL (2)
+    ) u_delay_control (
+        .clk,
+        .rst,
+        .din({game_field_in.vsync, game_field_in.vblnk, game_field_in.hsync, game_field_in.hblnk}),
+        .dout({game_field_out.vsync, game_field_out.vblnk, game_field_out.hsync, game_field_out.hblnk}) 
+);
+
 logic [11:0] rgb_nxt;
 logic [11:0] ball_rgb = 12'hF_F_F;
+
+always_comb begin
+   if(game_field_in.vblnk || game_field_in.hblnk) begin
+      rgb_nxt = 12'h0_0_0;
+   end else if(ball_on || pads_on ) begin 
+      rgb_nxt = ball_rgb;
+   end else begin
+      rgb_nxt = game_field_in.rgb;
+   end
+end
 
 always_ff @(posedge clk) begin
    if(rst) begin
@@ -75,14 +120,6 @@ always_ff @(posedge clk) begin
    end 
 end
 
-always_comb begin
-   if(game_field_in.vblnk || game_field_in.hblnk) begin
-      rgb_nxt = 12'h0_0_0;
-   end else if(ball_on) begin 
-      rgb_nxt = ball_rgb;
-   end else begin
-      rgb_nxt = game_field_in.rgb;
-   end
-end
+
 
 endmodule
