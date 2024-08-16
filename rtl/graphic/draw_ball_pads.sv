@@ -3,13 +3,17 @@
 module draw_ball_pads(
     input logic clk,
     input logic rst,
+    // inout logic [9:0] y_ball; 
+    // inout logic [9:0] x_ball;
+    // inout logic [9:0] y_pad_left;
+    //inout logic [9:0] y_pad_right;
     vga_intf.in game_field_in,
     vga_intf.out game_field_out 
 );
 localparam BALL_SIZE = 15;
 import vga_pkg::*;
 
-// Ustawienie piłki na środku ekranu
+// Ustawienie piłki na środku ekranu -przeniesc do ball_controller
 localparam [9:0] x_ball_center = (HOR_PIXELS - BALL_SIZE) / 2;
 localparam [9:0] y_ball_center = (VER_PIXELS - BALL_SIZE) / 2;
 
@@ -72,7 +76,7 @@ logic [9:0] y_pad_left = 312;
 localparam PAD_HIGHT = 145; 
 localparam PAD_WIDTH = 15;   
 
-wire pad_on;
+// wire pad_on;
 assign pads_on = ((game_field_in.hcount >= x_pad_right) && (game_field_in.hcount <= x_pad_right + PAD_WIDTH)
                   && (game_field_in.vcount >= y_pad_right) && (game_field_in.vcount <= y_pad_right + PAD_HIGHT))
                   || ((game_field_in.hcount >= x_pad_left) && (game_field_in.hcount <= x_pad_left + PAD_WIDTH)
