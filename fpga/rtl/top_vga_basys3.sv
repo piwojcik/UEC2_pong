@@ -4,7 +4,7 @@
  * Author: prof. Eric Crabilla
  *
  * Modified by:
- * 2023  AGH University of Science and Technology
+ * 2024  AGH University of Science and Technology
  * MTM UEC2
  * Piotr Kaczmarczyk, Jan Jurek
  *
@@ -17,6 +17,9 @@
 module top_vga_basys3 (
     input  wire clk,
     input  wire btnC,
+    input  wire [0:0] sw,
+    input  wire btnU,
+    input  wire btnD,
     inout  wire PS2Clk,
     inout  wire PS2Data,
     output wire Vsync,
@@ -99,8 +102,11 @@ keyboard_top u_keyboard_top (
     .rst(btnC),
     .PS2Data,
     .PS2Clk,
-    .up(),
-    .down(),
+    .sw,
+    .btnU,
+    .btnD,
+    .up(led[0]),
+    .down(led[1]),
     .tx
 );
 

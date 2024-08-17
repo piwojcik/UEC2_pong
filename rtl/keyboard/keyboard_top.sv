@@ -18,6 +18,7 @@
 // Additional Comments:
 //     Known issue, when multiple buttons are pressed and one is released, the scan code of the one still held down is ometimes re-sent.
 // https://github.com/Digilent/Basys-3-Keyboard
+//
 // Modified by:
 // 2024  AGH University of Science and Technology
 // MTM UEC2
@@ -26,15 +27,16 @@
 
 
 module keyboard_top(
-    input         clk,
-    input         rst,
-    input         PS2Data,
-    input         PS2Clk,
-    output        up,
-    output        down,
-    // output        ledd,
-    // output        ledu,
-    output        tx
+    input  logic       clk,
+    input  logic       rst,
+    input  logic       PS2Data,
+    input  logic       PS2Clk,
+    input  logic [0:0] sw,
+    input  logic       btnU,
+    input  logic       btnD,
+    output logic       up,
+    output logic       down,
+    output logic       tx
 );
     // wire        tready; // sygnaly do uart
     // wire        ready;
@@ -58,7 +60,7 @@ module keyboard_top(
     );
     
     
-    always@(keycode)
+    always@(keycode or keycodev)
         if (keycode[7:0] == 8'hf0) begin
             cn <= 1'b0;
             // bcount <= 3'd0;
@@ -82,6 +84,9 @@ module keyboard_top(
     .rst,
     .keycode(keycodev),
     .ready(start),
+    .sw,
+    .btnU,
+    .btnD,
     .up,
     .down
     );
