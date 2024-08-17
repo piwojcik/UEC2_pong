@@ -17,7 +17,7 @@
      inout  logic [9:0] y_ball,
      inout  logic [9:0] x_ball,
 
-     output  logic miss,
+     output  logic miss
  );
 
  import vga_pkg::*;

@@ -3,10 +3,10 @@
 module draw_ball_pads(
     input logic clk,
     input logic rst,
-    // inout logic [9:0] y_ball; 
-    // inout logic [9:0] x_ball;
-    // inout logic [9:0] y_pad_left;
-    //inout logic [9:0] y_pad_right;
+    // inout logic [9:0] y_ball, 
+    // inout logic [9:0] x_ball,
+    input logic [9:0] y_pad_left,
+    //input logic [9:0] y_pad_right,
     vga_intf.in game_field_in,
     vga_intf.out game_field_out 
 );
@@ -72,7 +72,7 @@ logic [9:0] x_pad_right = 979;
 logic [9:0] y_pad_right = 312;
 
 logic [9:0] x_pad_left = 30;
-logic [9:0] y_pad_left = 312;
+//logic [9:0] y_pad_left = 312;
 localparam PAD_HIGHT = 145; 
 localparam PAD_WIDTH = 15;   
 
