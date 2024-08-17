@@ -4,9 +4,9 @@
  * Author: prof. Eric Crabilla
  *
  * Modified by:
- * 2023  AGH University of Science and Technology
+ * 2024  AGH University of Science and Technology
  * MTM UEC2
- * Piotr Kaczmarczyk
+ * Piotr Kaczmarczyk, Jan Jurek
  *
  * Description:
  * Top level synthesizable module including the project top and all the FPGA-referred modules.
@@ -17,12 +17,19 @@
 module top_vga_basys3 (
     input  wire clk,
     input  wire btnC,
+    input  wire [0:0] sw,
+    input  wire btnU,
+    input  wire btnD,
+    inout  wire PS2Clk,
+    inout  wire PS2Data,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
     output wire [3:0] vgaGreen,
     output wire [3:0] vgaBlue,
-    output wire JA1
+    output wire JA1,
+    output wire [1:0] led, // TODO usunac ledy
+    output wire       tx
 );
 
 
@@ -89,6 +96,18 @@ top_vga u_top_vga (
     .b(vgaBlue),
     .hs(Hsync),
     .vs(Vsync)
+);
+keyboard_top u_keyboard_top (
+    .clk(clk100mhz),
+    .rst(btnC),
+    .PS2Data,
+    .PS2Clk,
+    .sw,
+    .btnU,
+    .btnD,
+    .up(led[0]),
+    .down(led[1]),
+    .tx
 );
 
 endmodule

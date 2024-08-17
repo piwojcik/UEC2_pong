@@ -9,8 +9,8 @@ set_property PACKAGE_PIN W5 [get_ports clk]
 	create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports clk]
 
 ## Switches
-#set_property PACKAGE_PIN V17 [get_ports {sw[0]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {sw[0]}]
+set_property PACKAGE_PIN V17 [get_ports {sw[0]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {sw[0]}]
 #set_property PACKAGE_PIN V16 [get_ports {sw[1]}]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {sw[1]}]
 #set_property PACKAGE_PIN W16 [get_ports {sw[2]}]
@@ -44,10 +44,10 @@ set_property PACKAGE_PIN W5 [get_ports clk]
 
 
 ## LEDs
-#set_property PACKAGE_PIN U16 [get_ports {led[0]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
-#set_property PACKAGE_PIN E19 [get_ports {led[1]}]
-	#set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
+set_property PACKAGE_PIN U16 [get_ports {led[0]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
+set_property PACKAGE_PIN E19 [get_ports {led[1]}]
+	set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
 #set_property PACKAGE_PIN U19 [get_ports {led[2]}]
 	#set_property IOSTANDARD LVCMOS33 [get_ports {led[2]}]
 #set_property PACKAGE_PIN V19 [get_ports {led[3]}]
@@ -110,14 +110,14 @@ set_property PACKAGE_PIN W5 [get_ports clk]
 ##Buttons
 set_property PACKAGE_PIN U18 [get_ports btnC]
 	set_property IOSTANDARD LVCMOS33 [get_ports btnC]
-#set_property PACKAGE_PIN T18 [get_ports btnU]
-	#set_property IOSTANDARD LVCMOS33 [get_ports btnU]
+set_property PACKAGE_PIN T18 [get_ports btnU]
+	set_property IOSTANDARD LVCMOS33 [get_ports btnU]
 #set_property PACKAGE_PIN W19 [get_ports btnL]
 	#set_property IOSTANDARD LVCMOS33 [get_ports btnL]
 #set_property PACKAGE_PIN T17 [get_ports btnR]
 	#set_property IOSTANDARD LVCMOS33 [get_ports btnR]
-#set_property PACKAGE_PIN U17 [get_ports btnD]
-	#set_property IOSTANDARD LVCMOS33 [get_ports btnD]
+set_property PACKAGE_PIN U17 [get_ports btnD]
+	set_property IOSTANDARD LVCMOS33 [get_ports btnD]
 
 
 
@@ -266,17 +266,17 @@ set_property PACKAGE_PIN R19 [get_ports Vsync]
 ##USB-RS232 Interface
 #set_property PACKAGE_PIN B18 [get_ports RsRx]
 	#set_property IOSTANDARD LVCMOS33 [get_ports RsRx]
-#set_property PACKAGE_PIN A18 [get_ports RsTx]
-	#set_property IOSTANDARD LVCMOS33 [get_ports RsTx]
+set_property PACKAGE_PIN A18 [get_ports tx]						
+	set_property IOSTANDARD LVCMOS33 [get_ports tx]
 
 
 ##USB HID (PS/2)
-#set_property PACKAGE_PIN C17 [get_ports PS2Clk]
-	#set_property IOSTANDARD LVCMOS33 [get_ports PS2Clk]
-	#set_property PULLUP true [get_ports PS2Clk]
-#set_property PACKAGE_PIN B17 [get_ports PS2Data]
-	#set_property IOSTANDARD LVCMOS33 [get_ports PS2Data]
-	#set_property PULLUP true [get_ports PS2Data]
+set_property PACKAGE_PIN C17 [get_ports PS2Clk]
+	set_property IOSTANDARD LVCMOS33 [get_ports PS2Clk]
+	set_property PULLUP true [get_ports PS2Clk]
+set_property PACKAGE_PIN B17 [get_ports PS2Data]
+	set_property IOSTANDARD LVCMOS33 [get_ports PS2Data]
+	set_property PULLUP true [get_ports PS2Data]
 
 
 ##Quad SPI Flash

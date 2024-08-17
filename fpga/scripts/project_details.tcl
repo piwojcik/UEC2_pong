@@ -39,12 +39,17 @@ set sv_files {
     ../rtl/char/draw_score.sv
     ../rtl/char/font_rom.sv
     ../rtl/delay.sv
+    ../rtl/keyboard/keyboard_top.sv
+    ../rtl/keyboard/input_mux.sv
     rtl/top_vga_basys3.sv
 }
 
 # Specify Verilog design files location         -- EDIT
  set verilog_files {
-    rtl/clk_wiz_0_clk_wiz.v
+    rtl/clk_wiz_0_clk_wiz.v 
+    ../rtl/keyboard/bin2ascii.v
+    ../rtl/keyboard/debouncer.v
+    ../rtl/keyboard/PS2Receiver.v
  }
 
 # Specify VHDL design files location            -- EDIT
