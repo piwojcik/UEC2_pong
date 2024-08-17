@@ -17,6 +17,8 @@
 module top_vga (
     input  logic clk,
     input  logic rst,
+    input  logic [9:0] y_player_pad,
+    output logic timing_tick,
     output logic vs,
     output logic hs,
     output logic [3:0] r,
@@ -54,6 +56,7 @@ assign {r,g,b} = vgatop_bus.rgb;
 vga_timing u_vga_timing (
     .clk,
     .rst,
+    .timing_tick,
     .vcount (vcount_tim),
     .vsync  (vsync_tim),
     .vblnk  (vblnk_tim),
@@ -97,6 +100,7 @@ font_rom u_font_rom(
 draw_ball_pads u_draw_ball_pads(
     .clk,
     .rst,
+    .y_pad_left(y_player_pad),
     .game_field_in(draw_score_bus),
     .game_field_out(vgatop_bus)
 );
