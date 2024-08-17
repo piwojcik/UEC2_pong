@@ -50,8 +50,6 @@ set sv_files {
     ../rtl/keyboard/bin2ascii.v
     ../rtl/keyboard/debouncer.v
     ../rtl/keyboard/PS2Receiver.v
-    ../rtl/keyboard/uart_buf_con.v
-    ../rtl/keyboard/uart_tx.v
  }
 
 # Specify VHDL design files location            -- EDIT
