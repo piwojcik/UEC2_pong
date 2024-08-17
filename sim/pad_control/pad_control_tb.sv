@@ -37,8 +37,7 @@ localparam CLK_PERIOD = 15.384615384615;     // ok 65 MHz
 
 logic clk, rst;
 wire vs, hs;
-logic timing_tick, up = 0;
-logic down;
+logic timing_tick, up = 0, down = 0;
 wire [3:0] r, g, b;
 wire [9:0] left_player;
 /**
@@ -97,10 +96,9 @@ player_pad_controller u_pad_control (
 
 initial begin
     rst = 1'b0;
-    down = 1'b1;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;
-
+    up = 1'b1;
     $display("If simulation ends before the testbench");
     $display("completes, use the menu option to run all.");
     $display("Prepare to wait a long time...");

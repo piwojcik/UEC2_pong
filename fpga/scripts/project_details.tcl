@@ -27,6 +27,7 @@ set target xc7a35tcpg236-1
 # Specify .xdc files location                   -- EDIT
 set xdc_files {
     constraints/top_vga_basys3.xdc
+    constraints/clk_wiz_0.xdc
 }
 
 # Specify SystemVerilog design files location   -- EDIT
@@ -41,6 +42,8 @@ set sv_files {
     ../rtl/delay.sv
     ../rtl/keyboard/keyboard_top.sv
     ../rtl/keyboard/input_mux.sv
+    ../rtl/graphic/draw_ball_pads.sv
+    ../rtl/logic/player_pad_controller.sv
     rtl/top_vga_basys3.sv
 }
 

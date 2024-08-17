@@ -35,7 +35,7 @@ module keyboard_top(
     input  logic       btnU,
     input  logic       btnD,
     output logic       up,
-    output logic       down,
+    output logic       down
 );
     wire        flag;
     reg         cn=0;

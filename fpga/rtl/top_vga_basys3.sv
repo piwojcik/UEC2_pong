@@ -27,9 +27,7 @@ module top_vga_basys3 (
     output wire [3:0] vgaRed,
     output wire [3:0] vgaGreen,
     output wire [3:0] vgaBlue,
-    output wire JA1,
-    output wire [1:0] led, // TODO usunac ledy
-    output wire       tx
+    output wire JA1
 );
 
 
@@ -41,6 +39,10 @@ wire clk_in, clk_fb, clk_ss, clk_out;
 wire locked;
 wire pclk;
 wire pclk_mirror;
+
+logic timing_tick;
+logic up, down;
+logic [9:0] y_player_pad;
 
 (* KEEP = "TRUE" *)
 (* ASYNC_REG = "TRUE" *)
@@ -91,6 +93,8 @@ clk_wiz_0_clk_wiz clk_gen
 top_vga u_top_vga (
     .clk(clk65mhz),
     .rst(btnC),
+    .y_player_pad(y_player_pad),
+    .timing_tick,
     .r(vgaRed),
     .g(vgaGreen),
     .b(vgaBlue),
@@ -98,16 +102,23 @@ top_vga u_top_vga (
     .vs(Vsync)
 );
 keyboard_top u_keyboard_top (
-    .clk(clk100mhz),
+    .clk(clk65mhz),
     .rst(btnC),
     .PS2Data,
     .PS2Clk,
     .sw,
     .btnU,
     .btnD,
-    .up(led[0]),
-    .down(led[1]),
-    .tx
+    .up,
+    .down
+);
+player_pad_controller u_player_pad_controller (
+    .clk(clk65mhz),
+    .rst(btnC),
+    .timing_tick,
+    .up_in(up),
+    .down_in(down),
+    .y_pad(y_player_pad)
 );
 
 endmodule
