@@ -38,6 +38,9 @@ set sv_files {
     ../rtl/top_vga.sv
     ../rtl/char/draw_score.sv
     ../rtl/char/font_rom.sv
+    ../rtl/graphic/draw_ball_pads.sv
+    ../rtl/logic/ball_controller.sv
+    ../rtl/logic/player_pad_controller.sv
     ../rtl/delay.sv
     rtl/top_vga_basys3.sv
 }

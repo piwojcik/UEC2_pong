@@ -37,6 +37,10 @@ module top_vga (
 wire [7:0] char_pixel;
 wire [3:0] char_line;
 wire [6:0] char_code;
+// wire [9:0] x_ball;
+wire [9:0] y_pad_right;
+// wire [9:0] y_ball;
+wire [9:0] y_pad_left;
 /**
  * Signals assignments
  */
@@ -97,12 +101,26 @@ font_rom u_font_rom(
     .char_line_pixels(char_pixel)
 );
 
-draw_ball_pads u_draw_ball_pads(
+draw_ball_pads u_draw_ball_pads (
     .clk,
     .rst,
-    .y_pad_left(y_player_pad),
+    .y_ball(y_ball),
+    .x_ball(x_ball),
+    .y_pad_left(y_pad_left),
+    .y_pad_right(y_pad_right),
     .game_field_in(draw_score_bus),
     .game_field_out(vgatop_bus)
 );
+
+ball_controller u_ball_controller(
+    .clk,
+    .rst,
+    .timing_tick,
+    .y_pad_right(y_pad_right),
+    .y_pad_left(y_pad_left),
+    .y_ball(y_ball),
+    .x_ball(x_ball)
+);
+
 
 endmodule

@@ -101,5 +101,4 @@ initial begin
     $display("Simulation is over, check the waveforms.");
     $finish;
 end
-
 endmodule
