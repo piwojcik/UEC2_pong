@@ -11,9 +11,9 @@
  module player_pad_controller (
      input  logic clk,
      input  logic rst,
-     input timing_tick,
-     input logic up,
-     input logic down,
+     input logic timing_tick,
+     input logic up_in,
+     input logic down_in,
      output  logic [9:0] y_pad
  );
 
@@ -29,6 +29,7 @@
  assign y_pad_b = y_pad_t + PAD_HEIGHT - 1;          // pad pozycja dolu
 logic [9:0] y_pad_next = 312;
 localparam PAD_VELOCITY = 3;                         // predkosc pada
+logic up, down;
 
 always_ff @(posedge clk)begin
     if(rst)begin
@@ -38,15 +39,24 @@ always_ff @(posedge clk)begin
     end
 end
 
+always_ff @(posedge clk) begin
+    if(rst)begin
+        up <= '0;
+        down <= '0;
+    end else begin
+        up <= up_in;
+        down <= down_in;
+    end
+end
+
 always_comb begin
     y_pad_next = y_pad;     
         
     if(timing_tick)
         if(down & (y_pad_b < (VER_PIXELS - 1 - PAD_VELOCITY)))
             y_pad_next = y_pad + PAD_VELOCITY;  // ruch do dolu
-        if(up & (y_pad_t > (1 + PAD_VELOCITY)))
+        else if(up & (y_pad_t > (1 + PAD_VELOCITY)))
             y_pad_next = y_pad - PAD_VELOCITY;  // ruch do gory
-                                                // oba powinny sie zniwelowac
 end
 
  endmodule
