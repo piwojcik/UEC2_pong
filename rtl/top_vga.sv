@@ -107,8 +107,8 @@ draw_ball_pads u_draw_ball_pads (
     .rst,
     .y_ball(y_ball_n),
     .x_ball(x_ball_n),
-    .y_pad_left(y_pad_left),
     .y_pad_right(y_pad_right),
+    .y_pad_left(y_player_pad),
     .game_field_in(draw_score_bus),
     .game_field_out(vgatop_bus)
 );
@@ -118,7 +118,7 @@ ball_controller u_ball_controller(
     .rst,
     .timing_tick,
     .y_pad_right(y_pad_right),
-    .y_pad_left(y_pad_left),
+    .y_pad_left(y_player_pad),
     .y_ball(y_ball_n),
     .x_ball(x_ball_n)
 );
