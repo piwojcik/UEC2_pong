@@ -51,15 +51,16 @@ module ball_controller (
  end
 
  always_comb begin
- // y_pad_left=((VER_PIXELS-72)/2);
- y_pad_right=((VER_PIXELS-72)/2);
+// y_pad_left=((VER_PIXELS-72)/2);
+y_pad_right=((VER_PIXELS-72)/2);
+    down = down;
+    right = right;
     if(timing_tick)begin
 
-
- // Odbicie od górnej i dolnej ściany
-      if(down)begin
-        y_ball_nxt = y_ball + BALL_VELOCITY;
-        if(y_ball >= VER_PIXELS - BALL_SIZE)begin
+// Odbicie od gornej i dolnej sciany
+        if(down)begin
+            y_ball_nxt = y_ball + BALL_VELOCITY;
+            if(y_ball >= VER_PIXELS - BALL_SIZE)begin
             down = 1'b0;
         end
     end else begin
