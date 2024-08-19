@@ -4,8 +4,8 @@ module draw_ball_pads (
     input logic clk,
     input logic rst,
 
-    input logic [9:0] y_ball, 
-    input logic [9:0] x_ball,
+    input logic [10:0] y_ball, 
+    input logic [10:0] x_ball,
 
     input logic [9:0] y_pad_left,
     input logic [9:0] y_pad_right,
@@ -23,7 +23,7 @@ localparam X_PAD_RIGHT = 979;
 import vga_pkg::*;
 
 // Granice prostokąta otaczającego koło
-logic [9:0] x_ball_left, x_ball_right, y_ball_top, y_ball_bottom; 
+logic [10:0] x_ball_left, x_ball_right, y_ball_top, y_ball_bottom; 
 logic [3:0] rom_addr, rom_col;
 logic [15:0] rom_data;
 wire rom_bit;
