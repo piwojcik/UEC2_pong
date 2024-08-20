@@ -17,13 +17,15 @@
 module top_vga (
     input  logic clk,
     input  logic rst,
-    input  logic [9:0] y_player_pad,
+    input  logic [9:0] y_player_1,
     output logic timing_tick,
     output logic vs,
     output logic hs,
     output logic [3:0] r,
     output logic [3:0] g,
-    output logic [3:0] b
+    output logic [3:0] b,
+    input logic [10:0] x_ball,
+    input logic [10:0] y_ball
 );
 import vga_pkg::*;
 
@@ -38,10 +40,7 @@ import vga_pkg::*;
 wire [7:0] char_pixel;
 wire [3:0] char_line;
 wire [6:0] char_code;
-wire [10:0] x_ball_n;
-wire [9:0] y_pad_right;
-wire [10:0] y_ball_n;
-wire [9:0] y_pad_left;
+
 /**
  * Signals assignments
  */
@@ -105,23 +104,23 @@ font_rom u_font_rom(
 draw_ball_pads u_draw_ball_pads (
     .clk,
     .rst,
-    .y_ball(y_ball_n),
-    .x_ball(x_ball_n),
+    .y_ball(y_ball),
+    .x_ball(x_ball),
     .y_pad_right(y_pad_right),
-    .y_pad_left(y_player_pad),
+    .y_pad_left(y_player_1),
     .game_field_in(draw_score_bus),
     .game_field_out(vgatop_bus)
 );
 
-ball_controller u_ball_controller(
-    .clk,
-    .rst,
-    .timing_tick,
-    .y_pad_right(y_pad_right),
-    .y_pad_left(y_player_pad),
-    .y_ball(y_ball_n),
-    .x_ball(x_ball_n)
-);
+// ball_controller u_ball_controller(
+//     .clk,
+//     .rst,
+//     .timing_tick,
+//     .y_pad_right(y_pad_right),
+//     .y_pad_left(y_player_pad),
+//     .y_ball(y_ball_n),
+//     .x_ball(x_ball_n)
+// );
 
 
 endmodule

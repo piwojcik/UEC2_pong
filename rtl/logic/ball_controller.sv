@@ -19,31 +19,14 @@ module ball_controller (
   localparam X_PAD_L = 30;
   localparam BALL_SIZE = 15;
 
-<<<<<<< HEAD
   localparam BALL_VELOCITY = 2; // w górę/lewo
-=======
-//  localparam BALL_VELOCITY_POS = 2; // w dół/prawo
-//  localparam BALL_VELOCITY_NEG = -2; // w górę/lewo
- localparam BALL_VELOCITY = 2; // w górę/lewo
->>>>>>> a94e7e5fee80efc11b5e23734ee573590059e5f9
-
-
 
   logic [10:0] y_ball_nxt;
   logic [10:0] x_ball_nxt;
 
-<<<<<<< HEAD
   logic down = 1'b0;
   logic right = 1'b0;
-  logic down_nxt= 1'b0, right_nxt= 1'b0;
-=======
-//  logic signed [2:0] y_delta;
-//  logic signed [2:0] x_delta;
-//  logic signed [2:0] y_delta_nxt;
-//  logic signed [2:0] x_delta_nxt;
- logic down = 1'b0;
- logic right = 1'b0;
->>>>>>> a94e7e5fee80efc11b5e23734ee573590059e5f9
+  logic down_nxt = 1'b0, right_nxt = 1'b0;
 
   always_ff @(posedge clk)begin
     if(rst)begin
@@ -109,16 +92,8 @@ module ball_controller (
         y_ball_nxt = (VER_PIXELS - BALL_SIZE) / 2;
       end
     end else begin
-<<<<<<< HEAD
       y_ball_nxt = y_ball;
       x_ball_nxt = x_ball;
-=======
-    y_ball_nxt = y_ball;
-    x_ball_nxt = x_ball;  
-    // x_delta_nxt = x_delta;
-    // y_delta_nxt = y_delta;  
-
->>>>>>> a94e7e5fee80efc11b5e23734ee573590059e5f9
     end
   end
 

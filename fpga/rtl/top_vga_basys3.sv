@@ -39,10 +39,12 @@ wire clk_in, clk_fb, clk_ss, clk_out;
 wire locked;
 wire pclk;
 wire pclk_mirror;
+logic [10:0] x_ball;
+logic [10:0] y_ball;
 
 logic timing_tick;
 logic up, down;
-logic [9:0] y_player_pad;
+logic [9:0] y_player_1;
 
 (* KEEP = "TRUE" *)
 (* ASYNC_REG = "TRUE" *)
@@ -93,13 +95,16 @@ clk_wiz_0_clk_wiz clk_gen
 top_vga u_top_vga (
     .clk(clk65mhz),
     .rst(btnC),
-    .y_player_pad(y_player_pad),
+    .y_player_1(y_player_1),
     .timing_tick,
     .r(vgaRed),
     .g(vgaGreen),
     .b(vgaBlue),
     .hs(Hsync),
-    .vs(Vsync)
+    .vs(Vsync),
+    .x_ball(x_ball),
+    .y_ball(y_ball)
+
 );
 keyboard_top u_keyboard_top (
     .clk(clk65mhz),
@@ -112,13 +117,17 @@ keyboard_top u_keyboard_top (
     .up,
     .down
 );
-player_pad_controller u_player_pad_controller (
+
+top_logic u_top_logic (
     .clk(clk65mhz),
     .rst(btnC),
     .timing_tick,
-    .up_in(up),
-    .down_in(down),
-    .y_pad(y_player_pad)
+    .up,
+    .down,
+    .y_player_1,
+    .x_ball(x_ball),
+    .y_ball(y_ball)
 );
+
 
 endmodule
