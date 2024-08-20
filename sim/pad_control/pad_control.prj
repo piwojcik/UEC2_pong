@@ -1,16 +1,6 @@
-# Copyright (C) 2023  AGH University of Science and Technology
+# Copyright (C) 2024  AGH University of Science and Technology
 # MTM UEC2
-# Author: Piotr Kaczmarczyk
-#
-# Description:
-# List of files defining the modules used during the test.
-# Specify the file paths relative to THIS file.
-# For syntax detail see AMD Xilinx UG 900:
-# https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
-
-# Copyright (C) 2023  AGH University of Science and Technology
-# MTM UEC2
-# Author: Piotr Kaczmarczyk
+# Author: Jan Jurek
 #
 # Description:
 # List of files defining the modules used during the test.
@@ -28,10 +18,10 @@ sv work ../../rtl/vga_pkg.sv \
         ../../rtl/char/draw_score.sv \
         ../../rtl/char/font_rom.sv \
         ../../rtl/graphic/draw_ball_pads.sv \
-        ../../rtl/logic/ball_controller.sv \
+        ../../rtl/logic/player_pad_controller.sv \
         ../../fpga/rtl/top_vga_basys3.sv \
         ../common/tiff_writer.sv \
-        top_vga_tb.sv 
+        pad_control_tb.sv 
 
 #vhdl work  
 

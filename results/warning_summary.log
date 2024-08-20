@@ -1,9 +1,12 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-08-12 18:36:29
+Created: 2024-08-20 13:45:19
 
 ----SYNTHESIS----
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 
 ----IMPLEMENTATION----
-CLEAR :)
+WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Clk expects both input and output buffering but the buffers are incomplete.
+WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Data expects both input and output buffering but the buffers are incomplete.
+WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Clk expects both input and output buffering but the buffers are incomplete.
+WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Data expects both input and output buffering but the buffers are incomplete.

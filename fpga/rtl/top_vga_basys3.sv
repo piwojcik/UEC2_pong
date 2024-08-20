@@ -4,9 +4,9 @@
  * Author: prof. Eric Crabilla
  *
  * Modified by:
- * 2023  AGH University of Science and Technology
+ * 2024  AGH University of Science and Technology
  * MTM UEC2
- * Piotr Kaczmarczyk
+ * Piotr Kaczmarczyk, Jan Jurek
  *
  * Description:
  * Top level synthesizable module including the project top and all the FPGA-referred modules.
@@ -17,6 +17,11 @@
 module top_vga_basys3 (
     input  wire clk,
     input  wire btnC,
+    input  wire [0:0] sw,
+    input  wire btnU,
+    input  wire btnD,
+    inout  wire PS2Clk,
+    inout  wire PS2Data,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
@@ -34,6 +39,10 @@ wire clk_in, clk_fb, clk_ss, clk_out;
 wire locked;
 wire pclk;
 wire pclk_mirror;
+
+logic timing_tick;
+logic up, down;
+logic [9:0] y_player_pad;
 
 (* KEEP = "TRUE" *)
 (* ASYNC_REG = "TRUE" *)
@@ -84,11 +93,32 @@ clk_wiz_0_clk_wiz clk_gen
 top_vga u_top_vga (
     .clk(clk65mhz),
     .rst(btnC),
+    .y_player_pad(y_player_pad),
+    .timing_tick,
     .r(vgaRed),
     .g(vgaGreen),
     .b(vgaBlue),
     .hs(Hsync),
     .vs(Vsync)
+);
+keyboard_top u_keyboard_top (
+    .clk(clk65mhz),
+    .rst(btnC),
+    .PS2Data,
+    .PS2Clk,
+    .sw,
+    .btnU,
+    .btnD,
+    .up,
+    .down
+);
+player_pad_controller u_player_pad_controller (
+    .clk(clk65mhz),
+    .rst(btnC),
+    .timing_tick,
+    .up_in(up),
+    .down_in(down),
+    .y_pad(y_player_pad)
 );
 
 endmodule

@@ -22,7 +22,7 @@
 
 `timescale 1 ns / 1 ps
 
-module top_vga_tb;
+module pad_control_tb;
 
 
 /**
@@ -37,8 +37,9 @@ localparam CLK_PERIOD = 15.384615384615;     // ok 65 MHz
 
 logic clk, rst;
 wire vs, hs;
+logic timing_tick, up = 0, down = 0;
 wire [3:0] r, g, b;
-
+wire [9:0] left_player;
 /**
  * Clock generation
  */
@@ -60,6 +61,8 @@ end
 top_vga dut (
     .clk(clk),
     .rst(rst),
+    .y_player_pad(left_player),
+    .timing_tick,
     .vs(vs),
     .hs(hs),
     .r(r),
@@ -78,7 +81,14 @@ tiff_writer #(
     .b({b,b}), // fabricate an 8-bit value
     .go(vs)
 );
-
+player_pad_controller u_pad_control (
+    .clk(clk),
+    .rst(rst),
+    .timing_tick,
+    .up,
+    .down,
+    .y_pad(left_player)
+);
 
 /**
  * Main test
@@ -88,7 +98,7 @@ initial begin
     rst = 1'b0;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;
-
+    up = 1'b1;
     $display("If simulation ends before the testbench");
     $display("completes, use the menu option to run all.");
     $display("Prepare to wait a long time...");
@@ -96,9 +106,13 @@ initial begin
     wait (vs == 1'b0);
     @(negedge vs) $display("Info: negedge VS at %t",$time);
     @(negedge vs) $display("Info: negedge VS at %t",$time);
-
+    @(negedge vs) $display("Info: negedge VS at %t",$time);
+    @(negedge vs) $display("Info: negedge VS at %t",$time);
+    @(negedge vs) $display("Info: negedge VS at %t",$time);
+    @(negedge vs) $display("Info: negedge VS at %t",$time);
     // End the simulation.
     $display("Simulation is over, check the waveforms.");
     $finish;
 end
+
 endmodule

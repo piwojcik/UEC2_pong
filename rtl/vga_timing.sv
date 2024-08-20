@@ -12,12 +12,14 @@
  module vga_timing (
      input  logic clk,
      input  logic rst,
+     output logic timing_tick,
      output logic [10:0] vcount,
      output logic vsync,
      output logic vblnk,
      output logic [10:0] hcount,
      output logic hsync,
      output logic hblnk // interfejs powoduje warning
+
  );
  
  import vga_pkg::*;
@@ -41,6 +43,8 @@
  /**
   * Internal logic
   */
+ assign timing_tick = ((vcount == VSYNCSTART) && (hcount == 0)) ? 1 : 0; // tick sterujacy 60hz
+
  always_ff @(posedge clk) begin
      if(rst == 1) begin
          vcount <= '0;
