@@ -9,7 +9,6 @@ module draw_ball_pads (
 
     input logic [9:0] y_pad_left,
     input logic [9:0] y_pad_right,
-    input state,
 
     vga_intf.in game_field_in,
     vga_intf.out game_field_out 
@@ -28,7 +27,7 @@ logic [10:0] x_ball_left, x_ball_right, y_ball_top, y_ball_bottom;
 logic [3:0] rom_addr, rom_col;
 logic [15:0] rom_data;
 wire rom_bit;
-wire sq_ball_on, ball_on, pads_on;
+wire [10:0] sq_ball_on, ball_on, pads_on;
 
 // Definicja danych ROM dla koła
 always_comb begin
@@ -71,14 +70,11 @@ assign rom_bit = rom_data[rom_col];         // 1-bitowy sygnał danych ROM
 assign ball_on = sq_ball_on & rom_bit;      // granice prostokąta AND bit danych ROM
 
 // Rysowanie padów
-always_comb begin
-    if(state == play)begin
-        pads_on = ((game_field_in.hcount >= X_PAD_RIGHT) && (game_field_in.hcount <= X_PAD_RIGHT + PAD_WIDTH)
+assign  pads_on = ((game_field_in.hcount >= X_PAD_RIGHT) && (game_field_in.hcount <= X_PAD_RIGHT + PAD_WIDTH)
                   && (game_field_in.vcount >= y_pad_right) && (game_field_in.vcount <= y_pad_right + PAD_HEIGHT))
                   || ((game_field_in.hcount >= X_PAD_LEFT) && (game_field_in.hcount <= X_PAD_LEFT + PAD_WIDTH)
                   && (game_field_in.vcount >= y_pad_left) && (game_field_in.vcount <= y_pad_left + PAD_HEIGHT));
-    end
-end 
+
 // Opóźnienie sygnałów licznika i sygnałów synchronizacji
 delay #(
     .WIDTH (22),

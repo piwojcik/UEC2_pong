@@ -5,6 +5,7 @@ module ball_controller (
     input  logic rst,
     input  logic timing_tick,
     input logic [9:0] y_pad_left,
+    input logic [1:0] state,
     output logic [9:0] y_pad_right,
     output  logic [9:0] y_ball,
     output  logic [10:0] x_ball
@@ -44,6 +45,7 @@ module ball_controller (
     y_pad_right=((VER_PIXELS-72)/2);
     down_nxt = down;
     right_nxt = right;
+    if(state & play)begin
     if(timing_tick)begin
 
 // Odbicie od gornej i dolnej sciany
@@ -89,6 +91,14 @@ module ball_controller (
     end else begin
       y_ball_nxt = y_ball;
       x_ball_nxt = x_ball;
+    end
+    end else if ((state & game_over)||(state & menu_start)) begin
+      y_ball_nxt = (VER_PIXELS - BALL_SIZE)/2;
+      x_ball_nxt = (HOR_PIXELS - BALL_SIZE)/2;
+    end
+    else begin
+      y_ball_nxt = (VER_PIXELS - BALL_SIZE)/2;
+      x_ball_nxt = (HOR_PIXELS - BALL_SIZE)/2;
     end
   end
 

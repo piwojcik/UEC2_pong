@@ -14,6 +14,7 @@
      input logic timing_tick,
      input logic up_in,
      input logic down_in,
+     input logic [1:0] state,
      output  logic [9:0] y_pad
  );
 
@@ -51,12 +52,18 @@ end
 
 always_comb begin
     y_pad_next = y_pad;     
-        
-    if(timing_tick)
-        if(down & (y_pad_b < (VER_PIXELS - 1 - PAD_VELOCITY)))
-            y_pad_next = y_pad + PAD_VELOCITY;  // ruch do dolu
-        else if(up & (y_pad_t > (1 + PAD_VELOCITY)))
-            y_pad_next = y_pad - PAD_VELOCITY;  // ruch do gory
+    if(state & play) begin    
+        if(timing_tick)
+            if(down & (y_pad_b < (VER_PIXELS - 1 - PAD_VELOCITY)))
+                y_pad_next = y_pad + PAD_VELOCITY;  // ruch do dolu
+            else if(up & (y_pad_t > (1 + PAD_VELOCITY)))
+                y_pad_next = y_pad - PAD_VELOCITY;  // ruch do gory
+    end else if ((state & game_over)||(state & menu_start)) begin
+        y_pad_next = (VER_PIXELS -72)/2;
+    end
+    else begin
+        y_pad_next = (VER_PIXELS -72)/2;
+    end
 end
 
  endmodule

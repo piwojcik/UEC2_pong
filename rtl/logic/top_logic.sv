@@ -36,7 +36,8 @@ ball_controller u_ball_controller(
     .y_pad_right(), //y_player_2
     .y_pad_left(y_player_1),
     .y_ball(y_ball),
-    .x_ball(x_ball)
+    .x_ball(x_ball),
+    .state
 );
 
 player_pad_controller u_player_pad_controller (
@@ -45,7 +46,8 @@ player_pad_controller u_player_pad_controller (
     .timing_tick,
     .up_in(up),
     .down_in(down),
-    .y_pad(y_player_1)
+    .y_pad(y_player_1),
+    .state
 );
 
 score_controller  u_score_controller(
@@ -79,21 +81,21 @@ always_comb begin
     state_nxt = state;
     case(state)
         menu_start: begin
-            if(up || down)begin
+            if(up)begin
                 state_nxt = play;
             end else begin
                 state_nxt = menu_start;
             end
         end
         play: begin
-            if(player1_score == 5 || player2_score == 5) begin
+            if((player1_score >= 5) || (player2_score >= 5)) begin
                 state_nxt = game_over;
             end else begin
                 state_nxt = play;
             end
         end
         game_over: begin
-            if(up || down)begin
+            if(down)begin
                 state_nxt = menu_start;
             end else begin
                 state_nxt = game_over;
