@@ -5,12 +5,9 @@ module ball_controller (
     input  logic rst,
     input  logic timing_tick,
     input logic [9:0] y_pad_left,
-    output logic [9:0] y_pad_right,
+    input logic [9:0] y_pad_right,
     output  logic [9:0] y_ball,
     output  logic [10:0] x_ball
-
-  //  output  logic miss_left,
-  //  output  logic miss_right
   );
 
   import vga_pkg::*;
@@ -21,7 +18,7 @@ module ball_controller (
 
   localparam BALL_VELOCITY = 2; // w górę/lewo
 
-  logic [10:0] y_ball_nxt;
+  logic [9:0] y_ball_nxt;
   logic [10:0] x_ball_nxt;
 
   logic down = 1'b0;
@@ -43,8 +40,6 @@ module ball_controller (
   end
 
   always_comb begin
-// y_pad_left=((VER_PIXELS-72)/2);
-    y_pad_right=((VER_PIXELS-72)/2);
     down_nxt = down;
     right_nxt = right;
     if(timing_tick)begin

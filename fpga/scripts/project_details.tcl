@@ -41,6 +41,7 @@ set sv_files {
     ../rtl/char/font_rom.sv
     ../rtl/logic/ball_controller.sv
     ../rtl/logic/player_pad_controller.sv
+    ../rtl/logic/player2_pad_controller.sv
     ../rtl/delay.sv
     ../rtl/keyboard/keyboard_top.sv
     ../rtl/keyboard/input_mux.sv

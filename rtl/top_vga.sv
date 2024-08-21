@@ -17,7 +17,8 @@
 module top_vga (
     input  logic clk,
     input  logic rst,
-    input  logic [9:0] y_player_1,
+    input  logic [9:0] y_player1,
+    input  logic [9:0] y_player2,
     output logic timing_tick,
     output logic vs,
     output logic hs,
@@ -109,8 +110,8 @@ draw_ball_pads u_draw_ball_pads (
     .rst,
     .y_ball(y_ball),
     .x_ball(x_ball),
-    .y_pad_right(y_pad_right),
-    .y_pad_left(y_player_1),
+    .y_pad_right(y_player2),
+    .y_pad_left(y_player1),
     .game_field_in(draw_score_bus),
     .game_field_out(vgatop_bus)
 );

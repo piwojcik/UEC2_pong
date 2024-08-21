@@ -1,12 +1,6 @@
 /**
- * San Jose State University
- * EE178 Lab #4
- * Author: prof. Eric Crabilla
- *
- * Modified by:
- * 2024  AGH University of Science and Technology
  * MTM UEC2
- * Piotr Kaczmarczyk, Jan Jurek
+ * Author: Piotr Wojcik, Jan Jurek
  *
  * Description:
  * Top level synthesizable module including the project top and all the FPGA-referred modules.
@@ -17,7 +11,7 @@
 module top_vga_basys3 (
     input  wire clk,
     input  wire btnC,
-    input  wire [0:0] sw,
+    input  wire [1:0] sw,
     input  wire btnU,
     input  wire btnD,
     inout  wire PS2Clk,
@@ -44,7 +38,8 @@ logic [9:0] y_ball;
 
 logic timing_tick;
 logic up, down;
-logic [9:0] y_player_1;
+logic [9:0] y_player1;
+logic [9:0] y_player2;
 
 logic [3:0] player1_score, player2_score;
 
@@ -98,7 +93,8 @@ clk_wiz_0_clk_wiz clk_gen
 top_vga u_top_vga (
     .clk(clk65mhz),
     .rst(btnC),
-    .y_player_1(y_player_1),
+    .y_player1,
+    .y_player2,
     .timing_tick,
     .r(vgaRed),
     .g(vgaGreen),
@@ -116,7 +112,7 @@ keyboard_top u_keyboard_top (
     .rst(btnC),
     .PS2Data,
     .PS2Clk,
-    .sw,
+    .sw(sw[0]),
     .btnU,
     .btnD,
     .up,
@@ -129,12 +125,14 @@ top_logic u_top_logic (
     .timing_tick,
     .up,
     .down,
-    .y_player_1,
+    .sw(sw[1]),
+    .btnU,
+    .btnD,
+    .y_player1,
+    .y_player2,
     .x_ball(x_ball),
     .y_ball(y_ball),
     .player1_score,
     .player2_score
 );
-
-
 endmodule

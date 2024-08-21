@@ -4,7 +4,7 @@ module draw_ball_pads (
     input logic clk,
     input logic rst,
 
-    input logic [10:0] y_ball, 
+    input logic [9:0] y_ball, 
     input logic [10:0] x_ball,
 
     input logic [9:0] y_pad_left,
