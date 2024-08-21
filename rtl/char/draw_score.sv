@@ -13,8 +13,8 @@
  module draw_score (
      input  logic clk,
      input  logic rst,
-    //  input  logic player1_score,
-    //  input  logic player2_score,
+     input  logic [3:0] player1_score,
+     input  logic [3:0] player2_score,
 
      input  logic [7:0] char_pixel,
      output  logic [6:0] char_code,
@@ -54,9 +54,9 @@ logic [11:0] rgb_nxt;
         i <= i_nxt;
         char_line <= {rect_in.vcount[3:0] - STARTY };
          if (rect_in.hcount >= 512) begin
-            char_code <= 'h30 + 1;
+            char_code <= 'h30 + player2_score;
         end else begin
-            char_code <= 'h30 + 2; // tu powinno byc jak podepniemy: char_code <= 'h30 + player1_score;
+            char_code <= 'h30 + player1_score; // tu powinno byc jak podepniemy: char_code <= 'h30 + player1_score;
         end
      end
  end

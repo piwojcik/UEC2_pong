@@ -40,11 +40,14 @@ wire locked;
 wire pclk;
 wire pclk_mirror;
 logic [10:0] x_ball;
-logic [10:0] y_ball;
+logic [9:0] y_ball;
 
 logic timing_tick;
 logic up, down;
 logic [9:0] y_player_1;
+
+logic [3:0] player1_score, player2_score;
+
 
 (* KEEP = "TRUE" *)
 (* ASYNC_REG = "TRUE" *)
@@ -103,7 +106,9 @@ top_vga u_top_vga (
     .hs(Hsync),
     .vs(Vsync),
     .x_ball(x_ball),
-    .y_ball(y_ball)
+    .y_ball(y_ball),
+    .player1_score,
+    .player2_score
 
 );
 keyboard_top u_keyboard_top (
@@ -126,7 +131,9 @@ top_logic u_top_logic (
     .down,
     .y_player_1,
     .x_ball(x_ball),
-    .y_ball(y_ball)
+    .y_ball(y_ball),
+    .player1_score,
+    .player2_score
 );
 
 

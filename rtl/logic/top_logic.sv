@@ -19,8 +19,10 @@
     //  input  logic up_2,
     //  input  logic down_2,
 
-     output logic [9:0] y_player_1
+     output logic [9:0] y_player_1,
     //  output logic [9:0] y_player_2,
+     output logic [3:0] player1_score,
+     output logic [3:0] player2_score
  );
 
  wire [10:0] x_ball_n;
@@ -44,4 +46,12 @@ player_pad_controller u_player_pad_controller (
     .down_in(down),
     .y_pad(y_player_1)
 );
+score_controller  u_score_controller(
+    .clk,
+    .rst,
+    .timing_tick,
+    .x_ball,
+    .player1_score,
+    .player2_score
+  );
  endmodule

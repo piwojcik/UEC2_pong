@@ -25,7 +25,9 @@ module top_vga (
     output logic [3:0] g,
     output logic [3:0] b,
     input logic [10:0] x_ball,
-    input logic [10:0] y_ball
+    input logic [9:0] y_ball,
+    input logic [3:0] player1_score,
+    input logic [3:0] player2_score
 );
 import vga_pkg::*;
 
@@ -90,7 +92,8 @@ draw_score u_draw_score (
     .rect_in (bg_bus),
     .rect_out (draw_score_bus),
     .char_pixel(char_pixel),
-
+    .player1_score,
+    .player2_score,
     .char_code,
     .char_line(char_line)
     );

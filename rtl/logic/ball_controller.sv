@@ -6,7 +6,7 @@ module ball_controller (
     input  logic timing_tick,
     input logic [9:0] y_pad_left,
     output logic [9:0] y_pad_right,
-    output  logic [10:0] y_ball,
+    output  logic [9:0] y_ball,
     output  logic [10:0] x_ball
 
   //  output  logic miss_left,
