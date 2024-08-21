@@ -16,11 +16,15 @@
      input  logic down,
      output  logic [10:0] x_ball,
      output  logic [9:0] y_ball,
+     output logic [1:0] state,
     //  input  logic up_2,
     //  input  logic down_2,
 
-     output logic [9:0] y_player_1
+     output logic [9:0] y_player_1,
     //  output logic [9:0] y_player_2,
+     output logic [4:0] score_1,
+     output logic [4:0] score_2,
+
  );
 
  wire [10:0] x_ball_n;
@@ -44,4 +48,50 @@ player_pad_controller u_player_pad_controller (
     .down_in(down),
     .y_pad(y_player_1)
 );
+
+logic [1:0] state_nxt;
+// logic [2:0] score_1 = 0;
+// logic [2:0] score_2 = 0;
+
+// localparam menu_start = 2'b00;
+// localparam play = 2'b01;
+// localparam game_over = 2'b10;
+import vga_pkg::*;
+
+
+always_ff @(posedge clk) begin
+    if(rst) begin
+        state <= menu_start;
+    end else begin
+        state <= state_nxt;
+    end
+end
+
+always_comb begin
+    state_nxt = state;
+    case(state)
+        menu_start: begin
+            if(up || down)begin
+                state_nxt = play;
+            end else begin
+                state_nxt = menu_start;
+            end
+        end
+        play: begin
+            if(score_1 == 5 || score_2 == 5) begin
+                state_nxt = game_over;
+            end else begin
+                state_nxt = play;
+            end
+        end
+        game_over: begin
+            if(up || down)begin
+                state_nxt = menu_start;
+            end else begin
+                state_nxt = game_over;
+            end
+        end
+    endcase
+end
+
  endmodule

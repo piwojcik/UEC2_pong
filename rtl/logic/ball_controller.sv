@@ -8,9 +8,6 @@ module ball_controller (
     output logic [9:0] y_pad_right,
     output  logic [10:0] y_ball,
     output  logic [10:0] x_ball
-
-  //  output  logic miss_left,
-  //  output  logic miss_right
   );
 
   import vga_pkg::*;
@@ -43,7 +40,7 @@ module ball_controller (
   end
 
   always_comb begin
-// y_pad_left=((VER_PIXELS-72)/2);
+
     y_pad_right=((VER_PIXELS-72)/2);
     down_nxt = down;
     right_nxt = right;
@@ -81,13 +78,11 @@ module ball_controller (
 
       // Sprawdzenie czy piłka opuściła ekran po lewej stronie
       if (x_ball <= 8) begin
-        //  miss_left = 1'b1;
         x_ball_nxt = (HOR_PIXELS - BALL_SIZE) / 2;
         y_ball_nxt = (VER_PIXELS - BALL_SIZE) / 2;
       end
       // Sprawdzenie czy piłka opuściła ekran po prawej stronie
       if (x_ball >= HOR_PIXELS - BALL_SIZE - 8) begin
-        //  miss_right = 1'b1;
         x_ball_nxt = (HOR_PIXELS - BALL_SIZE) / 2;
         y_ball_nxt = (VER_PIXELS - BALL_SIZE) / 2;
       end

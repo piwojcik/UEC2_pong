@@ -25,7 +25,8 @@ module top_vga (
     output logic [3:0] g,
     output logic [3:0] b,
     input logic [10:0] x_ball,
-    input logic [10:0] y_ball
+    input logic [10:0] y_ball,
+    input logic [1:0] state
 );
 import vga_pkg::*;
 
@@ -101,7 +102,7 @@ font_rom u_font_rom(
     .char_line_pixels(char_pixel)
 );
 
-draw_ball_pads u_draw_ball_pads (
+draw_ball_pads u_draw_ball_pads ( //zmienic na draw_states
     .clk,
     .rst,
     .y_ball(y_ball),
@@ -109,18 +110,9 @@ draw_ball_pads u_draw_ball_pads (
     .y_pad_right(y_pad_right),
     .y_pad_left(y_player_1),
     .game_field_in(draw_score_bus),
-    .game_field_out(vgatop_bus)
+    .game_field_out(vgatop_bus),
+    .state
 );
-
-// ball_controller u_ball_controller(
-//     .clk,
-//     .rst,
-//     .timing_tick,
-//     .y_pad_right(y_pad_right),
-//     .y_pad_left(y_player_pad),
-//     .y_ball(y_ball_n),
-//     .x_ball(x_ball_n)
-// );
 
 
 endmodule
