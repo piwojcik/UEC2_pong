@@ -26,8 +26,12 @@
      output logic [3:0] player2_score
  );
 
+ //signals
  wire [10:0] x_ball_n;
  wire [10:0] y_ball_n;
+ logic [1:0] state, state_nxt;
+
+ //submodules
 
 ball_controller u_ball_controller(
     .clk,
@@ -55,11 +59,12 @@ score_controller  u_score_controller(
     .rst,
     .timing_tick,
     .x_ball,
+    .state,
     .player1_score,
     .player2_score
   );
 
-logic [1:0] state, state_nxt;
+
 // logic [2:0] score_1 = 0;
 // logic [2:0] score_2 = 0;
 
@@ -78,10 +83,10 @@ end
 
 always_comb begin
     // Domyślnie przypisanie obecnego stanu do następnego
-    still_graphic = 1'b1;
     state_nxt = state;
     case(state)
         menu_start: begin
+            still_graphic = 1'b1;
             if(up) begin
                 state_nxt = play;
             end
@@ -93,11 +98,13 @@ always_comb begin
             end
         end
         game_over: begin
-            if(down) begin
+            still_graphic = 1'b1;
+            if(down) begin         
                 state_nxt = menu_start;
             end
         end
         default: begin
+            still_graphic = 1'b1;
             state_nxt = menu_start; // Bezpieczne ustawienie domyślnego stanu
         end
     endcase

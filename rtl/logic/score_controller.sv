@@ -12,6 +12,7 @@ module score_controller (
     input  logic rst,
     input  logic timing_tick,
     input  logic [10:0] x_ball,
+    input  logic [1:0] state,
     output  logic [3:0] player1_score,
     output  logic [3:0] player2_score
   );
@@ -28,7 +29,7 @@ module score_controller (
   logic player1_scored_nxt = '0, player2_scored_nxt = '0;
 
   always_ff @(posedge clk)begin
-    if(rst)begin
+    if(rst || (state == menu_start))begin
         player1_score <= '0;
         player2_score <= '0;
         player1_scored <= '0;

@@ -1,9 +1,12 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-08-21 16:45:52
+Created: 2024-08-23 15:35:02
 
 ----SYNTHESIS----
 WARNING: [Synth 8-3848] Net y_pad_right in module/entity top_vga does not have driver. [rtl/top_vga.sv:113]
+WARNING: [Synth 8-7071] port 'still_graphic' of module 'top_logic' is unconnected for instance 'u_top_logic' [fpga/rtl/top_vga_basys3.sv:127]
+WARNING: [Synth 8-7023] instance 'u_top_logic' of module 'top_logic' has 11 connections declared, but only 10 given [fpga/rtl/top_vga_basys3.sv:127]
+WARNING: [Synth 8-3848] Net state in module/entity top_vga_basys3 does not have driver. [fpga/rtl/top_vga_basys3.sv:48]
 WARNING: [Synth 8-7129] Port state[1] in module top_vga is either unconnected or has no load
 WARNING: [Synth 8-7129] Port state[0] in module top_vga is either unconnected or has no load
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met

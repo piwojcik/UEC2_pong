@@ -14,7 +14,7 @@
      input logic timing_tick,
      input logic up_in,
      input logic down_in,
-     input logic still_grahic,
+     input logic still_graphic,
      output  logic [9:0] y_pad
  );
 
@@ -52,7 +52,7 @@ end
 
 always_comb begin
     y_pad_next = y_pad;     
-    if(still_grahic) begin  
+    if(still_graphic) begin  
         y_pad_next = (VER_PIXELS -72)/2;
     end else begin
         if(timing_tick)
