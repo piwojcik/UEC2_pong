@@ -16,7 +16,7 @@
      input  logic down,
      output  logic [10:0] x_ball,
      output  logic [9:0] y_ball,
-     output logic [1:0] state,
+     output logic still_graphic,
     //  input  logic up_2,
     //  input  logic down_2,
 
@@ -37,7 +37,7 @@ ball_controller u_ball_controller(
     .y_pad_left(y_player_1),
     .y_ball(y_ball),
     .x_ball(x_ball),
-    .state
+    .still_graphic
 );
 
 player_pad_controller u_player_pad_controller (
@@ -47,7 +47,7 @@ player_pad_controller u_player_pad_controller (
     .up_in(up),
     .down_in(down),
     .y_pad(y_player_1),
-    .state
+    .still_graphic
 );
 
 score_controller  u_score_controller(
@@ -59,7 +59,7 @@ score_controller  u_score_controller(
     .player2_score
   );
 
-logic [1:0] state_nxt;
+logic [1:0] state, state_nxt;
 // logic [2:0] score_1 = 0;
 // logic [2:0] score_2 = 0;
 
@@ -67,7 +67,6 @@ logic [1:0] state_nxt;
 // localparam play = 2'b01;
 // localparam game_over = 2'b10;
 import vga_pkg::*;
-
 
 always_ff @(posedge clk) begin
     if(rst) begin
@@ -78,28 +77,28 @@ always_ff @(posedge clk) begin
 end
 
 always_comb begin
+    // Domyślnie przypisanie obecnego stanu do następnego
+    still_graphic = 1'b1;
     state_nxt = state;
     case(state)
         menu_start: begin
-            if(up)begin
+            if(up) begin
                 state_nxt = play;
-            end else begin
-                state_nxt = menu_start;
             end
         end
         play: begin
+            still_graphic = 1'b0;
             if((player1_score >= 5) || (player2_score >= 5)) begin
                 state_nxt = game_over;
-            end else begin
-                state_nxt = play;
             end
         end
         game_over: begin
-            if(down)begin
+            if(down) begin
                 state_nxt = menu_start;
-            end else begin
-                state_nxt = game_over;
             end
+        end
+        default: begin
+            state_nxt = menu_start; // Bezpieczne ustawienie domyślnego stanu
         end
     endcase
 end

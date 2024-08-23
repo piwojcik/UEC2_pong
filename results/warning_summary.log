@@ -1,6 +1,6 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-08-21 16:03:29
+Created: 2024-08-21 16:45:52
 
 ----SYNTHESIS----
 WARNING: [Synth 8-3848] Net y_pad_right in module/entity top_vga does not have driver. [rtl/top_vga.sv:113]
