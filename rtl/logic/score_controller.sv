@@ -12,6 +12,7 @@ module score_controller (
     input  logic rst,
     input  logic timing_tick,
     input  logic [10:0] x_ball,
+    input  logic still_graphic,
     output  logic [3:0] player1_score,
     output  logic [3:0] player2_score
   );
@@ -47,6 +48,10 @@ module score_controller (
     player2_score_nxt = player2_score;
     player2_scored_nxt = player2_scored;
     player1_scored_nxt = player1_scored;
+    if(still_graphic)begin
+        player2_scored_nxt = '0;
+        player1_scored_nxt = '0;
+    end else begin
     if(timing_tick) begin
         if(x_ball < X_PAD_L)begin // do ew poprawki glebokosci
             player2_scored_nxt = 1; 
@@ -61,5 +66,6 @@ module score_controller (
         player2_scored_nxt = '0;
     end
   end
+end
 end
 endmodule

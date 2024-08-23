@@ -14,7 +14,7 @@
      input logic timing_tick,
      input logic up_in,
      input logic down_in,
-     input logic still_grahic,
+     input logic still_graphic,
      output  logic [9:0] y_pad
  );
 
@@ -33,7 +33,7 @@ localparam PAD_VELOCITY = 3;                         // predkosc pada
 logic up, down;
 
 always_ff @(posedge clk)begin
-    if(rst)begin
+    if(rst || still_graphic)begin
         y_pad <= 312;
     end else begin
         y_pad <= y_pad_next;
@@ -52,15 +52,11 @@ end
 
 always_comb begin
     y_pad_next = y_pad;     
-    if(still_grahic) begin  
-        y_pad_next = (VER_PIXELS -72)/2;
-    end else begin
         if(timing_tick)
             if(down & (y_pad_b < (VER_PIXELS - 1 - PAD_VELOCITY)))
                 y_pad_next = y_pad + PAD_VELOCITY;  // ruch do dolu
             else if(up & (y_pad_t > (1 + PAD_VELOCITY)))
                 y_pad_next = y_pad - PAD_VELOCITY;  // ruch do gory
-    end 
 end
 
  endmodule

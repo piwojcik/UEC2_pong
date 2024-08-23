@@ -27,12 +27,13 @@ module ball_controller (
   logic down_nxt = 1'b0, right_nxt = 1'b0;
 
   always_ff @(posedge clk)begin
-    if(rst)begin
+    if(rst || still_graphic)begin
       y_ball <= (VER_PIXELS - BALL_SIZE-1) / 2;
       x_ball <= (HOR_PIXELS - BALL_SIZE-1) / 2;
       down <= '0;
       right <= '0;
-    end else begin
+    end 
+    else begin
       x_ball <= x_ball_nxt;
       y_ball <= y_ball_nxt;
       down <= down_nxt;
@@ -45,7 +46,6 @@ module ball_controller (
   y_pad_right=((VER_PIXELS-72)/2);
   down_nxt = down;
   right_nxt = right;
-  if(!still_graphic)begin
     if(timing_tick)begin
 
 // Odbicie od gornej i dolnej sciany
@@ -91,10 +91,6 @@ module ball_controller (
     end else begin
       y_ball_nxt = y_ball;
       x_ball_nxt = x_ball;
-    end
-    end else begin
-      y_ball_nxt = (VER_PIXELS - BALL_SIZE)/2;
-      x_ball_nxt = (HOR_PIXELS - BALL_SIZE)/2;
     end
   end
 

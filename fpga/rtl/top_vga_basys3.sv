@@ -46,6 +46,7 @@ logic timing_tick;
 logic up, down;
 logic [9:0] y_player_1;
 logic [1:0] state;
+logic still_graphic;
 logic [3:0] player1_score, player2_score;
 
 
@@ -135,7 +136,7 @@ top_logic u_top_logic (
     .y_ball(y_ball),
     .player1_score,
     .player2_score,
-    .state(state)
+    .still_graphic
 );
 
 
