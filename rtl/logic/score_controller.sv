@@ -7,29 +7,29 @@
  */
 `timescale 1 ns / 1 ps
 
-module score_controller (
+ module score_controller (
     input  logic clk,
     input  logic rst,
     input  logic timing_tick,
     input  logic [10:0] x_ball,
-    input  logic still_graphic,
+    input  logic [1:0] state,
     output  logic [3:0] player1_score,
     output  logic [3:0] player2_score
-  );
+ );
 
-  import vga_pkg::*;
+ import vga_pkg::*;
 
-  localparam X_PAD_R = 979;
-  localparam X_PAD_L = 30;
-  localparam BALL_SIZE = 15;
+ localparam X_PAD_R = 979;
+ localparam X_PAD_L = 30;
+ localparam BALL_SIZE = 15;
 
-  logic [3:0] player1_score_nxt;
-  logic [3:0] player2_score_nxt;
-  logic player1_scored = '0, player2_scored = '0;
-  logic player1_scored_nxt = '0, player2_scored_nxt = '0;
+ logic [3:0] player1_score_nxt;
+ logic [3:0] player2_score_nxt;
+ logic player1_scored = '0, player2_scored = '0;
+ logic player1_scored_nxt = '0, player2_scored_nxt = '0;
 
-  always_ff @(posedge clk)begin
-    if(rst)begin
+ always_ff @(posedge clk)begin
+    if(rst || (state == menu_start))begin
         player1_score <= '0;
         player2_score <= '0;
         player1_scored <= '0;
@@ -40,32 +40,28 @@ module score_controller (
         player1_scored <= player1_scored_nxt;
         player2_scored <= player2_scored_nxt;
     end
-  end
+ end
 
-  always_comb begin
-// liczenie punktow
+ always_comb begin
+ // liczenie punktow
     player1_score_nxt = player1_score;
     player2_score_nxt = player2_score;
     player2_scored_nxt = player2_scored;
     player1_scored_nxt = player1_scored;
-    if(still_graphic)begin
-        player2_scored_nxt = '0;
-        player1_scored_nxt = '0;
-    end else begin
+    
     if(timing_tick) begin
         if(x_ball < X_PAD_L)begin // do ew poprawki glebokosci
             player2_scored_nxt = 1; 
-    end else if(x_ball > X_PAD_R - BALL_SIZE/2)begin
-        player1_scored_nxt = 1;
-    
-    end else if(player1_scored & player1_score < 9)begin // zabezpieczenie aby naliczyc tylko 1 punkt i max 9 punktow
-        player1_score_nxt = player1_score + 1;
-        player1_scored_nxt = '0;
-    end else if(player2_scored & player2_score < 9)begin
-        player2_score_nxt = player2_score + 1;
-        player2_scored_nxt = '0;
+        end else if(x_ball > X_PAD_R - BALL_SIZE/2)begin
+            player1_scored_nxt = 1;
+        
+        end else if(player1_scored & player1_score < 9)begin // zabezpieczenie aby naliczyc tylko 1 punkt i max 9 punktow
+            player1_score_nxt = player1_score + 1;
+            player1_scored_nxt = '0;
+        end else if(player2_scored & player2_score < 9)begin
+            player2_score_nxt = player2_score + 1;
+            player2_scored_nxt = '0;
+        end
     end
-  end
-end
-end
-endmodule
+ end
+ endmodule

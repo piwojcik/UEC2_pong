@@ -8,15 +8,15 @@
 
  `timescale 1 ns / 1 ps
 
- module top_logic (
+module top_logic (
      input  logic clk,
      input  logic rst,
      input  logic timing_tick,
      input  logic up,
      input  logic down,
-     output  logic [10:0] x_ball,
-     output  logic [9:0] y_ball,
-     output logic still_graphic,
+     output logic [10:0] x_ball,
+     output logic [9:0] y_ball,
+     output logic [1:0] state,
     //  input  logic up_2,
     //  input  logic down_2,
 
@@ -24,10 +24,17 @@
     //  output logic [9:0] y_player_2,
      output logic [3:0] player1_score,
      output logic [3:0] player2_score
- );
+);
 
- wire [10:0] x_ball_n;
- wire [10:0] y_ball_n;
+//signals
+wire [10:0] x_ball_n;
+wire [10:0] y_ball_n;
+logic [1:0] state_nxt;
+
+import vga_pkg::*;
+
+
+//submodules
 
 ball_controller u_ball_controller(
     .clk,
@@ -37,7 +44,7 @@ ball_controller u_ball_controller(
     .y_pad_left(y_player_1),
     .y_ball(y_ball),
     .x_ball(x_ball),
-    .still_graphic
+    .state
 );
 
 player_pad_controller u_player_pad_controller (
@@ -47,7 +54,7 @@ player_pad_controller u_player_pad_controller (
     .up_in(up),
     .down_in(down),
     .y_pad(y_player_1),
-    .still_graphic
+    .state
 );
 
 score_controller  u_score_controller(
@@ -55,18 +62,10 @@ score_controller  u_score_controller(
     .rst,
     .timing_tick,
     .x_ball,
+    .state,
     .player1_score,
     .player2_score
   );
-
-logic [1:0] state, state_nxt;
-// logic [2:0] score_1 = 0;
-// logic [2:0] score_2 = 0;
-
-// localparam menu_start = 2'b00;
-// localparam play = 2'b01;
-// localparam game_over = 2'b10;
-import vga_pkg::*;
 
 always_ff @(posedge clk) begin
     if(rst) begin
@@ -78,7 +77,6 @@ end
 
 always_comb begin
     // Domyślnie przypisanie obecnego stanu do następnego
-    still_graphic = 1'b1;
     state_nxt = state;
     case(state)
         menu_start: begin
@@ -87,13 +85,12 @@ always_comb begin
             end
         end
         play: begin
-            still_graphic = 1'b0;
             if((player1_score >= 5) || (player2_score >= 5)) begin
                 state_nxt = game_over;
             end
         end
         game_over: begin
-            if(down) begin
+            if(down) begin         
                 state_nxt = menu_start;
             end
         end
@@ -103,4 +100,4 @@ always_comb begin
     endcase
 end
 
- endmodule
+endmodule
