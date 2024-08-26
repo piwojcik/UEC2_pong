@@ -45,6 +45,7 @@ set sv_files {
     ../rtl/keyboard/keyboard_top.sv
     ../rtl/keyboard/input_mux.sv
     ../rtl/graphic/draw_ball_pads.sv
+    ../rtl/graphic/draw_state.sv
     ../rtl/logic/top_logic.sv
     ../rtl/logic/score_controller.sv
     rtl/top_vga_basys3.sv

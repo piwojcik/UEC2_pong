@@ -3,10 +3,8 @@
 module draw_ball_pads (
     input logic clk,
     input logic rst,
-
-    input logic [10:0] y_ball, 
+    input logic [9:0] y_ball, 
     input logic [10:0] x_ball,
-
     input logic [9:0] y_pad_left,
     input logic [9:0] y_pad_right,
 
@@ -95,6 +93,7 @@ delay #(
     .din({game_field_in.vsync, game_field_in.vblnk, game_field_in.hsync, game_field_in.hblnk}),
     .dout({game_field_out.vsync, game_field_out.vblnk, game_field_out.hsync, game_field_out.hblnk}) 
 );
+
 
 // Ustawienie koloru
 logic [11:0] rgb_nxt;

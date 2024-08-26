@@ -134,8 +134,8 @@ top_logic u_top_logic (
     .x_ball(x_ball),
     .y_ball(y_ball),
     .player1_score,
-    .player2_score
-    //.state(state)
+    .player2_score,
+    .state(state)
 );
 
 

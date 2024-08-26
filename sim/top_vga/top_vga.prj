@@ -28,6 +28,7 @@ sv work ../../rtl/vga_pkg.sv \
         ../../rtl/char/draw_score.sv \
         ../../rtl/char/font_rom.sv \
         ../../rtl/graphic/draw_ball_pads.sv \
+        ../../rtl/graphic/draw_state.sv \
         ../../rtl/logic/ball_controller.sv \
         ../../rtl/logic/top_logic.sv \
         ../../rtl/logic/player_pad_controller.sv \
