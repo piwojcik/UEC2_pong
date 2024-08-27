@@ -66,11 +66,11 @@ assign over_on = ((game_in.hcount >= OVER_X_POS) && (game_in.hcount < OVER_X_POS
 assign winner_on = ((game_in.hcount >= WINNER_X_POS) && (game_in.hcount < WINNER_X_POS + CHAR_WIDTH * SCALE * 13) &&
                 (game_in.vcount >= WINNER_Y_POS) && (game_in.vcount < WINNER_Y_POS + CHAR_HEIGHT * SCALE2));
 
-assign winner = (player1_score > player2_score) ? 7'h30 : 7'h31;
+assign winner = (player1_score > player2_score) ? 7'h31 : 7'h32;
 
  // Generate ROM address based on the current pixel position
 always_comb begin
-    if (state & menu_start) begin
+    if (state == menu_start) begin
         if(menu_on) begin    
             char_line = (game_in.vcount - MENU_Y_POS) / SCALE;
             case ((game_in.hcount - MENU_X_POS) / (CHAR_WIDTH * SCALE))
@@ -87,7 +87,7 @@ always_comb begin
         end else begin
             char_code = 7'b0;
         end 
-    end else if(state & game_over) begin
+    end else if(state == game_over) begin
         if(over_on)begin
             char_line = (game_in.vcount - OVER_Y_POS) / SCALE;
             case ((game_in.hcount - OVER_X_POS) / (CHAR_WIDTH * SCALE))
@@ -142,7 +142,7 @@ end
 always_comb begin
     if (game_in.vblnk || game_in.hblnk) begin             // Blanking region:
         rgb_nxt = 12'h0_0_0;                    // - make it it black.
-    end else if (state & menu_start) begin 
+    end else if (state == menu_start) begin 
         if(menu_on) begin
             if(char_line_pixels[7 - ((game_in.hcount - MENU_X_POS) / SCALE) % CHAR_WIDTH]) begin
                 rgb_nxt = 12'hF_0_F;
@@ -152,7 +152,7 @@ always_comb begin
         end else begin
             rgb_nxt = game_in.rgb;
         end
-    end else if (state & game_over) begin 
+    end else if (state == game_over) begin 
         if(over_on) begin
             if(char_line_pixels[7 - ((game_in.hcount - OVER_X_POS) / SCALE) % CHAR_WIDTH]) begin
                 rgb_nxt = 12'hF_0_F;

@@ -6,7 +6,7 @@
  * Modified by:
  * 2023  AGH University of Science and Technology
  * MTM UEC2
- * Piotr Kaczmarczyk, Jan Jurek
+ * Piotr Kaczmarczyk, Jan Jurek, Piotr Wojcik
  *
  * Description:
  * The project top module.
