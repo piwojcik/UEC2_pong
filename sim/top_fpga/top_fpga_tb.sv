@@ -40,7 +40,7 @@ logic clk, rst;
 wire pclk;
 wire vs, hs;
 wire [3:0] r, g, b;
-
+wire [1:0] sw;
 
 /**
  * Clock generation
@@ -59,6 +59,11 @@ end
 top_vga_basys3 dut (
     .clk(clk),
     .btnC(rst),
+    .sw(sw),
+    .btnU(btnU),
+    .btnD(btnD),
+    .PS2Clk(),
+    .PS2Data(),
     .Vsync(vs),
     .Hsync(hs),
     .vgaRed(r),

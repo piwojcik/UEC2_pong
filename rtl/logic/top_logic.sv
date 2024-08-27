@@ -25,6 +25,11 @@
      output logic [3:0] player1_score,
      output logic [3:0] player2_score
  );
+//signals
+ logic [9:0] y_pad_uart,y_ball_test;
+ logic [10:0] x_ball_test;
+
+ logic [31:0] rx_buft;
 
 ball_controller u_ball_controller(
     .clk,
@@ -32,8 +37,8 @@ ball_controller u_ball_controller(
     .timing_tick,
     .y_pad_right(y_player2), 
     .y_pad_left(y_player1),
-    .y_ball(y_ball),
-    .x_ball(x_ball)
+    .y_ball(y_ball_test),
+    .x_ball(x_ball_test)
 );
 
 player_pad_controller u_player_pad_controller (
@@ -57,10 +62,23 @@ score_controller  u_score_controller(
     .clk,
     .rst,
     .timing_tick,
-    .y_pad_uart(),
+    .y_pad_uart,
     .sw,
     .btnU,
     .btnD,
-    .y_pad(y_player2)
+    .y_pad()
 );
+ wire test;
+ uart uart_unit (
+    .clk, 
+    .reset(rst),
+    .rx(test),
+    .tbuf({y_player1,y_ball_test,x_ball_test,1'b1}),
+    .timing_tick,
+    .tx (test),
+    .rx_buf(rx_buft)
+    );
+ assign y_player2 = rx_buft[9:0];
+ assign y_ball = rx_buft[19:10];
+ assign x_ball = rx_buft[30:20];
  endmodule
