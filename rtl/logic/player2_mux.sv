@@ -17,6 +17,7 @@
      input logic [9:0] y_player2_uart,
      input logic [10:0] x_ball_uart,
      input logic [9:0] y_ball_uart,
+     input logic sw,
 
      output logic [9:0] y_player2_mux,
      output  logic [10:0] x_ball_mux,
@@ -53,7 +54,7 @@
     y_player2_nxt = y_player2_mux;
     x_ball_nxt = x_ball_mux;
     y_ball_nxt = y_ball_mux;
-    if(sw[2] == 1) begin    // uzycie uart
+    if(sw == 1) begin    // uzycie uart
         y_player2_nxt = y_player2_uart;
         x_ball_nxt = x_ball_uart;
         y_ball_nxt = y_ball_uart;

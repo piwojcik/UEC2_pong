@@ -90,7 +90,7 @@ score_controller  u_score_controller(
         .y_player2_uart,
         .x_ball_uart,
         .y_ball_uart,
-   
+        .sw(sw[2]),
        .y_player2_mux(y_player2),
         . x_ball_mux(x_ball),
         .y_ball_mux(y_ball)  

@@ -51,6 +51,7 @@ set sv_files {
     ../rtl/logic/uart_buf_rx.sv
     ../rtl/logic/uart_buf_tx.sv
     ../rtl/logic/uart.sv
+    ../rtl/logic/player2_mux.sv
     rtl/top_vga_basys3.sv
 }
 
