@@ -25,7 +25,6 @@ module ball_controller (
   logic [2:0] ver_ball_velocity;
   logic [2:0] hor_ball_velocity_nxt;
   logic [2:0] ver_ball_velocity_nxt;
-  logic [2:0] x;
 
 
   logic down = 1'b0;
@@ -56,8 +55,6 @@ module ball_controller (
   y_pad_right=((VER_PIXELS-72)/2);
   down_nxt = down;
   right_nxt = right;
-  // hor_ball_velocity_nxt = hor_ball_velocity;
-  // ver_ball_velocity_nxt = ver_ball_velocity;
   if(timing_tick)begin
 // Odbicie od gornej i dolnej sciany
     if(down)begin

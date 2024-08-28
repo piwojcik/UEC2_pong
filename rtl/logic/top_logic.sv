@@ -21,7 +21,7 @@ module top_logic (
     //  input  logic down_2,
 
      output logic [9:0] y_player_1,
-    //  output logic [9:0] y_player_2,
+     output logic [9:0] y_player_2,
      output logic [3:0] player1_score,
      output logic [3:0] player2_score
 );
@@ -40,7 +40,7 @@ ball_controller u_ball_controller(
     .clk,
     .rst,
     .timing_tick,
-    .y_pad_right(), //y_player_2
+    .y_pad_right(y_player_2), //y_player_2
     .y_pad_left(y_player_1),
     .y_ball(y_ball),
     .x_ball(x_ball),
