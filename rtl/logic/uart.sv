@@ -23,11 +23,22 @@ module uart
     // signal declaration
     wire tick, rx_done_tick;
     logic tstart, tready;
-
+   logic timing_tick_delay;
   //  wire [31:0] tbuf;
     wire [ 7:0] tbus;
     wire [ 7:0] rxbus;
     //body
+    //delay aby wczytac nowe pozycje
+    delay #(
+    .WIDTH (1),
+    .CLK_DEL (4) //TODO doprecyzowac 
+) u_delay_count (
+    .clk(clk),
+    .rst(reset),
+    .din(timing_tick),
+    .dout(timing_tick_delay) 
+);
+
     mod_m_counter #(.M(DVSR), .N(DVSR_BIT)) baud_gen_unit
        (.clk(clk), .reset(reset), .q(), .max_tick(tick));
  
@@ -52,7 +63,7 @@ module uart
             .clk    (clk   ),
             .rst    (reset),
             .tbuf   (tbuf  ),  
-            .start  (timing_tick ), 
+            .start  (timing_tick_delay ), 
             .ready  (ready ), 
             .tstart (tstart),
             .tready (tready),

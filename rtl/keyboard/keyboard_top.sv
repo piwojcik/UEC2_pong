@@ -29,8 +29,8 @@
 module keyboard_top(
     input  logic       clk,
     input  logic       rst,
-    inout  logic       PS2Data,
-    inout  logic       PS2Clk,
+    input  logic       PS2Data,
+    input  logic       PS2Clk,
     input  logic [0:0] sw,
     input  logic       btnU,
     input  logic       btnD,

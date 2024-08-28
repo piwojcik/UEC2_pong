@@ -16,7 +16,9 @@
      input  logic down,
      input  logic btnU,
      input  logic btnD,
-     input  logic [1:1] sw,
+     input  logic [2:1] sw,
+     input logic rx,
+     output logic tx,
      output  logic [10:0] x_ball,
      output  logic [9:0] y_ball,
 
@@ -26,8 +28,8 @@
      output logic [3:0] player2_score
  );
 //signals
- logic [9:0] y_pad_uart,y_ball_test;
- logic [10:0] x_ball_test;
+ logic [9:0] y_player2_uart, y_player2_logic ,y_ball_uart, y_ball_logic;
+ logic [10:0] x_ball_uart, x_ball_logic;
 
  logic [31:0] rx_buft;
 
@@ -37,8 +39,8 @@ ball_controller u_ball_controller(
     .timing_tick,
     .y_pad_right(y_player2), 
     .y_pad_left(y_player1),
-    .y_ball(y_ball_test),
-    .x_ball(x_ball_test)
+    .y_ball(y_ball_logic),
+    .x_ball(x_ball_logic)
 );
 
 player_pad_controller u_player_pad_controller (
@@ -62,23 +64,38 @@ score_controller  u_score_controller(
     .clk,
     .rst,
     .timing_tick,
-    .y_pad_uart,
-    .sw,
+    .y_pad_uart(y_player2_uart),
+    .sw(sw[2]),
     .btnU,
     .btnD,
-    .y_pad()
+    .y_pad(y_player2_logic)
 );
- wire test;
+
  uart uart_unit (
     .clk, 
     .reset(rst),
-    .rx(test),
-    .tbuf({y_player1,y_ball_test,x_ball_test,1'b1}),
+    .rx,
+    .tbuf({1'b1, y_player1, y_ball_logic, x_ball_logic}),
     .timing_tick,
-    .tx (test),
+    .tx,
     .rx_buf(rx_buft)
     );
- assign y_player2 = rx_buft[9:0];
- assign y_ball = rx_buft[19:10];
- assign x_ball = rx_buft[30:20];
+
+ player2_mux u_player2_mux(
+        .clk,
+        .rst,
+        .x_ball_logic,
+        .y_ball_logic,
+        .y_player2_logic,
+        .y_player2_uart,
+        .x_ball_uart,
+        .y_ball_uart,
+   
+       .y_player2_mux(y_player2),
+        . x_ball_mux(x_ball),
+        .y_ball_mux(y_ball)  
+    );
+ assign y_player2_uart = rx_buft[30:21];
+ assign y_ball_uart = rx_buft[20:11];
+ assign x_ball_uart = rx_buft[10:0];
  endmodule

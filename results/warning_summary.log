@@ -1,14 +1,17 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-08-28 11:50:44
+Created: 2024-08-28 14:12:30
 
 ----SYNTHESIS----
 WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [rtl/logic/top_logic.sv:61]
+WARNING: [Synth 8-87] always_comb on 'rxbuf_nxt_reg' did not result in combinational logic [rtl/logic/uart_buf_rx.sv:83]
 WARNING: [Synth 8-3848] Net y_pad_uart in module/entity top_logic does not have driver. [rtl/logic/top_logic.sv:29]
+WARNING: [Synth 8-327] inferring latch for variable 'rxbuf_nxt_reg' [rtl/logic/uart_buf_rx.sv:83]
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-3332] Sequential element (u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[31]) is unused and will be removed from module top_vga_basys3.
 
 ----IMPLEMENTATION----
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Clk expects both input and output buffering but the buffers are incomplete.
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Data expects both input and output buffering but the buffers are incomplete.
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Clk expects both input and output buffering but the buffers are incomplete.
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Data expects both input and output buffering but the buffers are incomplete.
+WARNING: [DRC PDRC-153] Gated clock check: Net u_top_logic/uart_unit/rx_con/rxbuf_nxt__0[10] is a gated clock net sourced by a combinational pin u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[15]_i_2/O, cell u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[15]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net u_top_logic/uart_unit/rx_con/rxbuf_nxt__0[23] is a gated clock net sourced by a combinational pin u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[23]_i_2/O, cell u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[23]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net u_top_logic/uart_unit/rx_con/rxbuf_nxt__0[30] is a gated clock net sourced by a combinational pin u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[30]_i_2/O, cell u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[30]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net u_top_logic/uart_unit/rx_con/rxbuf_nxt__0[3] is a gated clock net sourced by a combinational pin u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[7]_i_1/O, cell u_top_logic/uart_unit/rx_con/rxbuf_nxt_reg[7]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.

@@ -86,9 +86,9 @@ module uart_buf_tx(
     always_comb begin
         case (sel)
         3'd1: tbus_nxt = pbuf[31:24];
-        3'd2: tbus_nxt = pbuf[23:16];
-        3'd3: tbus_nxt = pbuf[15:8];
-        3'd4: tbus_nxt = pbuf[7:0];
+        3'd2: tbus_nxt = pbuf[31:24];
+        3'd3: tbus_nxt = pbuf[23:16];
+        3'd4: tbus_nxt = pbuf[15:8];
         3'd5: tbus_nxt = pbuf[7:0];
         default: tbus_nxt = 8'd0;
         endcase
