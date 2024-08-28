@@ -23,4 +23,9 @@ localparam HSYNCTIME= 136;
 localparam VSYNCSTART = 771;
 localparam VSYNCTIME= 6;
 
+localparam BALLSIZE =15;
+localparam PAD_HEIGHT = 145; 
+
+
+
 endpackage
