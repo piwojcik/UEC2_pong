@@ -50,7 +50,7 @@ module uart
 
         uart_buf_tx tx_con (
             .clk    (clk   ),
-         //   .bcount (bcount),
+            .rst    (reset),
             .tbuf   (tbuf  ),  
             .start  (timing_tick ), 
             .ready  (ready ), 

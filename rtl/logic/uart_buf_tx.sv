@@ -33,9 +33,9 @@ module uart_buf_tx(
     output logic        tstart,
     output logic [ 7:0] tbus
     );
-    reg [2:0] sel=0;
-    reg [31:0] pbuf=0;
-    reg running=0;
+    logic [2:0] sel=0, sel_nxt=0;
+    logic [31:0] pbuf=0, pbuf_nxt=0;
+    logic running=0, running_nxt=0;
 
     logic [7:0] tbus_nxt =0;
     logic tstart_nxt;
@@ -43,28 +43,40 @@ module uart_buf_tx(
         if(rst)begin
             tbus <= 'b0;
             tstart <= 'b0;
+            sel <= 'b0;
+            running <= 'b0;
+            pbuf <= 'b0;
         end else begin
             tbus <= tbus_nxt;
             tstart <= tstart_nxt;
+            sel <= sel_nxt;
+            running <= running_nxt;
+            pbuf <= pbuf_nxt;
         end
     end
 
     always_comb begin
+        sel_nxt = sel;
+        tstart_nxt = tstart;
+        running_nxt = running;
+        pbuf_nxt = pbuf;
         if (tready == 1'b1) begin
             if (running == 1'b1) begin
-                if (sel == 4'd1) begin
-                    running = 1'b0;
-                    sel = 5;
-                end else begin
-                    sel = sel - 1'b1;
-                    tstart_nxt = 1'b1;
-                    running = 1'b1;
+                if(tstart == 0) begin
+                    if (sel == 4'd1) begin
+                       running_nxt = 1'b0;
+                        sel_nxt = 5;
+                    end else begin
+                        sel_nxt = sel - 1'b1;
+                        tstart_nxt = 1'b1;
+                        running_nxt = 1'b1;
+                    end
                 end
             end else begin
-                    pbuf = tbuf;
+                    pbuf_nxt = tbuf;
                     tstart_nxt = start;
-                    running = start;
-                    sel = 5;
+                    running_nxt = start;
+                    sel_nxt = 5;
             end
         end else
         tstart_nxt = 1'b0;

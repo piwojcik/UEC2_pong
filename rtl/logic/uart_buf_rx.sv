@@ -31,51 +31,59 @@ module uart_buf_rx(
     //output logic            done
     );
     //signals
-    logic [2:0] sel=0;
+    logic [2:0] sel, sel_nxt=0;
     logic [31:0] rxbuf_nxt=0;
-    logic running=0;
-    logic done;
-    
+    logic running=0, running_nxt=0;
+    // logic done; 
     always_ff @(posedge clk) begin
         if(rst)begin
             rxbuf <= 'b0;
+            sel <= 'b0;
+            running <= 'b0;
         end else begin
-            if(done) begin
+            // if(done) begin
                 rxbuf <= rxbuf_nxt;
-            end
+                sel <= sel_nxt;
+                running <= running_nxt;
+            // end
         end
     end
 
     always_comb begin
-        done = '0;
+        running_nxt = running;
+        sel_nxt = sel;
         if(start)begin
             if (running == 1'b1) begin
                 if (sel == 4'd1) begin
-                    running = 1'b0;
-                    sel = 4;
-                    done = 1;
+                    running_nxt = 1'b0;
+                    sel_nxt = 4;
+                    // done = 1;
                 end else begin
-                    sel = sel - 1'b1;
-                    running = 1'b1;
+                    sel_nxt = sel - 1'b1;
+                    running_nxt = 1'b1;
                 end
             end else begin
-                    running = start;
-                    sel = 4;
-                    rxbuf_nxt = 32'b0;
+                running_nxt = start;
+                sel_nxt = 4;
             end
+        end else if (sel == 4'd1) begin
+            running_nxt = 1'b0;
+            sel_nxt = 4;
+            // done = 1;
         end 
     end
     
 
 
     always_comb begin
+        rxbuf_nxt = rxbuf;
         if(start) begin
             case (sel)
                 3'd1: rxbuf_nxt[31:24] = rxbus;
                 3'd2: rxbuf_nxt[23:16] = rxbus;
                 3'd3: rxbuf_nxt[15:8] = rxbus;
                 3'd4: rxbuf_nxt[7:0] = rxbus;
-                3'd5: rxbuf_nxt[7:0] = rxbus;
+                // 3'd5: rxbuf_nxt[7:0] = rxbus;
                 default: rxbuf_nxt = 32'd0;
             endcase
         end
