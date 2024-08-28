@@ -9,18 +9,37 @@
 # https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
 
 
-sv work ../../rtl/vga_pkg.sv \
-        ../../rtl/vga_timing.sv \
-        ../../rtl/draw_bg.sv \
-        ../../rtl/top_vga.sv \
-        ../../rtl/vga_if.sv \
-        ../../fpga/rtl/top_vga_basys3.sv \
-        ../common/tiff_writer.sv \
-        top_fpga_tb.sv 
+sv work     ../../rtl/vga_pkg.sv  \
+    ../../rtl/vga_timing.sv  \
+    ../../rtl/draw_bg.sv  \
+    ../../rtl/vga_if.sv  \
+    ../../rtl/top_vga.sv  \
+    ../../rtl/char/draw_score.sv  \
+    ../../rtl/char/font_rom.sv  \
+    ../../rtl/logic/ball_controller.sv  \
+    ../../rtl/logic/player_pad_controller.sv  \
+    ../../rtl/logic/player2_pad_controller.sv  \
+    ../../rtl/delay.sv  \
+    ../../rtl/keyboard/keyboard_top.sv  \
+    ../../rtl/keyboard/input_mux.sv  \
+    ../../rtl/graphic/draw_ball_pads.sv  \
+    ../../rtl/logic/top_logic.sv \
+    ../../rtl/logic/score_controller.sv \
+    ../../rtl/logic/uart_buf_rx.sv \
+    ../../rtl/logic/uart.sv \
+    ../../rtl/logic/uart_buf_tx.sv \
+    ../../fpga/rtl/top_vga_basys3.sv \
+    ../common/tiff_writer.sv \
+    top_fpga_tb.sv 
 
 #vhdl work  
 
 # compile glbl module - required for IP simulation
 verilog work ../common/glbl.v \
              ../../fpga/rtl/clk_wiz_0_clk_wiz.v \
+             ../../rtl/logic/uart_tx.v  \
+             ../../rtl/logic/uart_rx.v  \
+             ../../rtl/logic/mod_m_counter.v  \
+             ../../rtl/keyboard/PS2Receiver.v \
+             ../../rtl/keyboard/debouncer.v
              

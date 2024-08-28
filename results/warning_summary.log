@@ -1,12 +1,15 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-08-21 14:50:02
+Created: 2024-08-27 18:51:02
 
 ----SYNTHESIS----
-WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [rtl/logic/top_logic.sv:61]
+ERROR: [Synth 8-524] part-select [31:24] out of range of prefix 'rxbus' [rtl/logic/uart_buf_rx.sv:72]
+ERROR: [Synth 8-6156] failed synthesizing module 'uart_buf_rx' [rtl/logic/uart_buf_rx.sv:25]
+ERROR: [Synth 8-6156] failed synthesizing module 'uart' [rtl/logic/uart.sv:2]
+ERROR: [Synth 8-6156] failed synthesizing module 'top_logic' [rtl/logic/top_logic.sv:11]
+ERROR: [Synth 8-6156] failed synthesizing module 'top_vga_basys3' [fpga/rtl/top_vga_basys3.sv:11]
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
 
 ----IMPLEMENTATION----
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Clk expects both input and output buffering but the buffers are incomplete.
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Data expects both input and output buffering but the buffers are incomplete.
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Clk expects both input and output buffering but the buffers are incomplete.
-WARNING: [DRC RPBF-3] IO port buffering is incomplete: Device port PS2Data expects both input and output buffering but the buffers are incomplete.
+No implementation log file found!
