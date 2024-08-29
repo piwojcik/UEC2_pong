@@ -22,18 +22,18 @@ module top_logic (
      output logic [1:0] state,
     //  input  logic up_2,
     //  input  logic down_2,
-     input  logic btnU,
-     input  logic btnD,
-     input  logic [1:1] sw,
-     output  logic [10:0] x_ball,
-     output  logic [9:0] y_ball,
-
      output logic [9:0] y_player1,
      output logic [9:0] y_player2,
      output logic [3:0] player1_score,
      output logic [3:0] player2_score
 );
 
+//signals
+wire [10:0] x_ball_n;
+wire [10:0] y_ball_n;
+logic [1:0] state_nxt;
+
+import vga_pkg::*;
 ball_controller u_ball_controller(
     .clk,
     .rst,
@@ -75,4 +75,37 @@ score_controller  u_score_controller(
     .btnD,
     .y_pad(y_player2)
 );
+
+always_ff @(posedge clk) begin
+    if(rst) begin
+        state <= menu_start;
+    end else begin
+        state <= state_nxt;
+    end
+end
+
+always_comb begin
+    // Domyślnie przypisanie obecnego stanu do następnego
+    state_nxt = state;
+    case(state)
+        menu_start: begin
+            if(up) begin
+                state_nxt = play;
+            end
+        end
+        play: begin
+            if((player1_score >= 5) || (player2_score >= 5)) begin
+                state_nxt = game_over;
+            end
+        end
+        game_over: begin
+            if(down) begin         
+                state_nxt = menu_start;
+            end
+        end
+        default: begin
+            state_nxt = menu_start; // Bezpieczne ustawienie domyślnego stanu
+        end
+    endcase
+end
  endmodule

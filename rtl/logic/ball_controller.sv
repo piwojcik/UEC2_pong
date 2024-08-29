@@ -17,7 +17,7 @@ module ball_controller (
   localparam X_PAD_R = 979;
   localparam X_PAD_L = 30;
   localparam BALL_SIZE = 15;
-  localparam BALL_VELOCITY = 2; // w górę/lewo
+  localparam BALL_VELOCITY = 4; // w górę/lewo
 
   logic [9:0] y_ball_nxt;
   logic [10:0] x_ball_nxt;
@@ -53,7 +53,7 @@ module ball_controller (
       end
     end else begin
         y_ball_nxt = y_ball - BALL_VELOCITY;
-        if(y_ball <= 5) begin
+        if(y_ball <= 10) begin
           down_nxt = 1'b1;
         end
     end
