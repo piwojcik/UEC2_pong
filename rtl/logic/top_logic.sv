@@ -8,12 +8,20 @@
 
  `timescale 1 ns / 1 ps
 
- module top_logic (
+module top_logic (
      input  logic clk,
      input  logic rst,
      input  logic timing_tick,
      input  logic up,
      input  logic down,
+     input  logic btnU,
+     input  logic btnD,
+     input  logic [1:1] sw,
+     output logic [10:0] x_ball,
+     output logic [9:0] y_ball,
+     output logic [1:0] state,
+    //  input  logic up_2,
+    //  input  logic down_2,
      input  logic btnU,
      input  logic btnD,
      input  logic [1:1] sw,
@@ -24,7 +32,7 @@
      output logic [9:0] y_player2,
      output logic [3:0] player1_score,
      output logic [3:0] player2_score
- );
+);
 
 ball_controller u_ball_controller(
     .clk,
@@ -33,7 +41,8 @@ ball_controller u_ball_controller(
     .y_pad_right(y_player2), 
     .y_pad_left(y_player1),
     .y_ball(y_ball),
-    .x_ball(x_ball)
+    .x_ball(x_ball),
+    .state
 );
 
 player_pad_controller u_player_pad_controller (
@@ -42,13 +51,16 @@ player_pad_controller u_player_pad_controller (
     .timing_tick,
     .up_in(up),
     .down_in(down),
-    .y_pad(y_player1)
+    .y_pad(y_player1),
+    .state
 );
+
 score_controller  u_score_controller(
     .clk,
     .rst,
     .timing_tick,
     .x_ball,
+    .state,
     .player1_score,
     .player2_score
   );

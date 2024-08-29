@@ -40,7 +40,7 @@ logic timing_tick;
 logic up, down;
 logic [9:0] y_player1;
 logic [9:0] y_player2;
-
+logic [1:0] state;
 logic [3:0] player1_score, player2_score;
 
 
@@ -104,7 +104,8 @@ top_vga u_top_vga (
     .x_ball(x_ball),
     .y_ball(y_ball),
     .player1_score,
-    .player2_score
+    .player2_score,
+    .state(state)
 
 );
 keyboard_top u_keyboard_top (
@@ -133,6 +134,7 @@ top_logic u_top_logic (
     .x_ball(x_ball),
     .y_ball(y_ball),
     .player1_score,
-    .player2_score
+    .player2_score,
+    .state(state)
 );
 endmodule

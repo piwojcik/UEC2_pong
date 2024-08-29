@@ -3,10 +3,8 @@
 module draw_ball_pads (
     input logic clk,
     input logic rst,
-
     input logic [9:0] y_ball, 
     input logic [10:0] x_ball,
-
     input logic [9:0] y_pad_left,
     input logic [9:0] y_pad_right,
 
@@ -27,7 +25,7 @@ logic [10:0] x_ball_left, x_ball_right, y_ball_top, y_ball_bottom;
 logic [3:0] rom_addr, rom_col;
 logic [15:0] rom_data;
 wire rom_bit;
-wire sq_ball_on, ball_on, pads_on;
+wire [10:0] sq_ball_on, ball_on, pads_on;
 
 // Definicja danych ROM dla koła
 always_comb begin
@@ -70,7 +68,7 @@ assign rom_bit = rom_data[rom_col];         // 1-bitowy sygnał danych ROM
 assign ball_on = sq_ball_on & rom_bit;      // granice prostokąta AND bit danych ROM
 
 // Rysowanie padów
-assign pads_on = ((game_field_in.hcount >= X_PAD_RIGHT) && (game_field_in.hcount <= X_PAD_RIGHT + PAD_WIDTH)
+assign  pads_on = ((game_field_in.hcount >= X_PAD_RIGHT) && (game_field_in.hcount <= X_PAD_RIGHT + PAD_WIDTH)
                   && (game_field_in.vcount >= y_pad_right) && (game_field_in.vcount <= y_pad_right + PAD_HEIGHT))
                   || ((game_field_in.hcount >= X_PAD_LEFT) && (game_field_in.hcount <= X_PAD_LEFT + PAD_WIDTH)
                   && (game_field_in.vcount >= y_pad_left) && (game_field_in.vcount <= y_pad_left + PAD_HEIGHT));
@@ -95,6 +93,7 @@ delay #(
     .din({game_field_in.vsync, game_field_in.vblnk, game_field_in.hsync, game_field_in.hblnk}),
     .dout({game_field_out.vsync, game_field_out.vblnk, game_field_out.hsync, game_field_out.hblnk}) 
 );
+
 
 // Ustawienie koloru
 logic [11:0] rgb_nxt;
