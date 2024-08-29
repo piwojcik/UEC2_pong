@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2023  AGH University of Science and Technologyy
  * MTM UEC2
- * Author: Piotr Wojcik
+ * Author: Jan Jurek
  *
  * Description:
  * Draw rectangle.
@@ -13,22 +13,22 @@ module draw_state (
     input logic clk,
     input logic rst,
     input logic [1:0] state,
-    input logic [3:0] player1_score,
-    input logic [3:0] player2_score,
+    input  logic [3:0] player1_score,
+    input  logic [3:0] player2_score,
 
     vga_intf.in game_in,
     vga_intf.out game_out 
 );
 import vga_pkg::*;
 
-//Parametry tekstu
+//draw menu
 localparam CHAR_WIDTH = 8;
 localparam CHAR_HEIGHT = 16;
-localparam SCALE = 8; // skalowanie liter
-localparam SCALE2 = 2; // skalowanie - mniejsza czcionka
+localparam SCALE = 4; // Scaling factor
+localparam SCALE2 = 2;
 
-// Obliczanie pozycji "MENU"
-localparam MENU_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE * 4) / 2);
+// Calculate the position for "MENU"
+localparam MENU_X_POS = (HOR_PIXELS / 2) - (CHAR_WIDTH * SCALE * 8 / 2);
 localparam MENU_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE / 2);
 // Obliczanie pozycji "GAME OVER"
 localparam OVER_X_POS = (HOR_PIXELS / 2) - (CHAR_WIDTH * SCALE * 9 / 2);
@@ -49,15 +49,15 @@ wire [10:0] winner_on;
 wire [10:0] winner;
 
 
-// Deklaracja podmodulu
+
+// Instantiate font ROM
 font_rom font_inst (
     .clk(clk),
     .addr(rom_addr),
     .char_line_pixels(char_line_pixels)
 );
 
-//Miejsce wyswietlenia tekstu
-assign menu_on = ((game_in.hcount >= MENU_X_POS) && (game_in.hcount < MENU_X_POS + CHAR_WIDTH * SCALE * 4) &&
+assign menu_on = ((game_in.hcount >= MENU_X_POS) && (game_in.hcount < MENU_X_POS + CHAR_WIDTH * SCALE * 8) &&
                 (game_in.vcount >= MENU_Y_POS) && (game_in.vcount < MENU_Y_POS + CHAR_HEIGHT * SCALE));
                 
 assign over_on = ((game_in.hcount >= OVER_X_POS) && (game_in.hcount < OVER_X_POS + CHAR_WIDTH * SCALE * 9) &&
@@ -65,19 +65,23 @@ assign over_on = ((game_in.hcount >= OVER_X_POS) && (game_in.hcount < OVER_X_POS
 
 assign winner_on = ((game_in.hcount >= WINNER_X_POS) && (game_in.hcount < WINNER_X_POS + CHAR_WIDTH * SCALE * 13) &&
                 (game_in.vcount >= WINNER_Y_POS) && (game_in.vcount < WINNER_Y_POS + CHAR_HEIGHT * SCALE2));
-// Ktory gracz wygral
+
 assign winner = (player1_score > player2_score) ? 7'h31 : 7'h32;
 
- // Generacja adresu ROM na podstawie pozycji pixela
+ // Generate ROM address based on the current pixel position
 always_comb begin
     if (state == menu_start) begin
         if(menu_on) begin    
             char_line = (game_in.vcount - MENU_Y_POS) / SCALE;
             case ((game_in.hcount - MENU_X_POS) / (CHAR_WIDTH * SCALE))
                 0: char_code = 7'h4D; // ASCII code for 'M'
-                1: char_code = 7'h45; // ASCII code for 'E'
-                2: char_code = 7'h4E; // ASCII code for 'N'
-                3: char_code = 7'h55; // ASCII code for 'U'
+                1: char_code = 7'h00; // ASCII code for ' '
+                2: char_code = 7'h45; // ASCII code for 'E'
+                3: char_code = 7'h00;
+                4: char_code = 7'h4E; // ASCII code for 'N'
+                5: char_code = 7'h00;
+                6: char_code = 7'h55; // ASCII code for 'U'
+                7: char_code = 7'h00;
                 default: char_code = 7'b0;
             endcase
         end else begin
@@ -134,14 +138,14 @@ always_ff @(posedge clk) begin
 end
 
 
-// RGB MUX
+// Output pixel data based on the ROM output
 always_comb begin
     if (game_in.vblnk || game_in.hblnk) begin             // Blanking region:
         rgb_nxt = 12'h0_0_0;                    // - make it it black.
     end else if (state == menu_start) begin 
         if(menu_on) begin
             if(char_line_pixels[7 - ((game_in.hcount - MENU_X_POS) / SCALE) % CHAR_WIDTH]) begin
-                rgb_nxt = 12'hF_0_F;         // - fioletowy napis MENU
+                rgb_nxt = 12'hF_0_F;
             end else begin
                 rgb_nxt = game_in.rgb;
             end 
@@ -151,13 +155,13 @@ always_comb begin
     end else if (state == game_over) begin 
         if(over_on) begin
             if(char_line_pixels[7 - ((game_in.hcount - OVER_X_POS) / SCALE) % CHAR_WIDTH]) begin
-                rgb_nxt = 12'hF_0_F;      // - fioletowy napis GAME OVER
+                rgb_nxt = 12'hF_0_F;
             end else begin
                 rgb_nxt = game_in.rgb;
             end 
         end else if(winner_on) begin
             if(char_line_pixels[7 - ((game_in.hcount - WINNER_X_POS) / SCALE2) % CHAR_WIDTH]) begin
-                rgb_nxt = 12'h0_F_0;       // - zielony napis PLAYER x WINS
+                rgb_nxt = 12'h0_F_0;
             end else begin
                 rgb_nxt = game_in.rgb;
             end 
