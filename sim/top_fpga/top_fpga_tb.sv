@@ -55,7 +55,7 @@ end
 /**
  * Submodules instances
  */
-
+logic test, test1;
 top_vga_basys3 dut (
     .clk(clk),
     .btnC(rst),
@@ -64,6 +64,7 @@ top_vga_basys3 dut (
     .btnD(btnD),
     .PS2Clk(),
     .PS2Data(),
+    .JC({test1,test}),
     .Vsync(vs),
     .Hsync(hs),
     .vgaRed(r),

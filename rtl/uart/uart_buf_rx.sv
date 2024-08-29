@@ -32,7 +32,7 @@ module uart_buf_rx(
     );
     //signals
     logic [2:0] sel, sel_nxt=0;
-    logic [31:0] rxbuf_nxt=0;
+    logic [31:0] rxbuf_temp,rxbuf_temp_nxt=0;
     logic running=0, running_nxt=0;
    // logic done; 
     always_ff @(posedge clk) begin
@@ -40,14 +40,16 @@ module uart_buf_rx(
             rxbuf <= 'b0;
             sel <= 'b0;
             running <= 'b0;
+            rxbuf_temp <= 'b0;
         end else begin
             if(!running) begin
-                rxbuf <= rxbuf_nxt;
+                rxbuf <= rxbuf_temp;
               end
-                sel <= sel_nxt;
-                running <= running_nxt;
-             end
+            rxbuf_temp <= rxbuf_temp_nxt;
+            sel <= sel_nxt;
+            running <= running_nxt;
         end
+    end
     
 
     always_comb begin
@@ -77,15 +79,15 @@ module uart_buf_rx(
 
 
     always_comb begin
-        // rxbuf_nxt = rxbuf;
+        rxbuf_temp_nxt = rxbuf_temp;
         if(start) begin
             case (sel)
-                3'd1: rxbuf_nxt[31:24] = rxbus;
-                3'd2: rxbuf_nxt[31:24] = rxbus;
-                3'd3: rxbuf_nxt[23:16] = rxbus;
-                3'd4: rxbuf_nxt[15:8] = rxbus;
-                3'd5: rxbuf_nxt[7:0] = rxbus;
-                default: rxbuf_nxt = 32'd0;
+                3'd1: rxbuf_temp_nxt[31:24] = rxbus;
+                3'd2: rxbuf_temp_nxt[31:24] = rxbus;
+                3'd3: rxbuf_temp_nxt[23:16] = rxbus;
+                3'd4: rxbuf_temp_nxt[15:8] = rxbus;
+                3'd5: rxbuf_temp_nxt[7:0] = rxbus;
+                default: rxbuf_temp_nxt = 32'd0;
             endcase
         end
     end

@@ -25,11 +25,12 @@ sv work     ../../rtl/vga_pkg.sv  \
     ../../rtl/graphic/draw_ball_pads.sv  \
     ../../rtl/logic/top_logic.sv \
     ../../rtl/logic/score_controller.sv \
-    ../../rtl/logic/uart_buf_rx.sv \
-    ../../rtl/logic/uart.sv \
-    ../../rtl/logic/uart_buf_tx.sv \
+    ../../rtl/uart/uart_buf_rx.sv \
+    ../../rtl/uart/uart.sv \
+    ../../rtl/uart/uart_buf_tx.sv \
     ../../fpga/rtl/top_vga_basys3.sv \
     ../common/tiff_writer.sv \
+    ../../rtl/logic/player2_mux.sv \
     top_fpga_tb.sv 
 
 #vhdl work  
@@ -37,8 +38,8 @@ sv work     ../../rtl/vga_pkg.sv  \
 # compile glbl module - required for IP simulation
 verilog work ../common/glbl.v \
              ../../fpga/rtl/clk_wiz_0_clk_wiz.v \
-             ../../rtl/logic/uart_tx.v  \
-             ../../rtl/logic/uart_rx.v  \
+             ../../rtl/uart/uart_tx.v  \
+             ../../rtl/uart/uart_rx.v  \
              ../../rtl/logic/mod_m_counter.v  \
              ../../rtl/keyboard/PS2Receiver.v \
              ../../rtl/keyboard/debouncer.v

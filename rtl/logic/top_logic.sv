@@ -28,7 +28,7 @@
      output logic [3:0] player2_score
  );
 //signals
- logic [9:0] y_player2_uart, y_player2_logic ,y_ball_uart, y_ball_logic;
+ logic [9:0] y_player2_uart, y_player1_logic, y_player2_logic ,y_ball_uart, y_ball_logic;
  logic [10:0] x_ball_uart, x_ball_logic;
 
  logic [31:0] rx_buft;
@@ -49,7 +49,7 @@ player_pad_controller u_player_pad_controller (
     .timing_tick,
     .up_in(up),
     .down_in(down),
-    .y_pad(y_player1)
+    .y_pad(y_player1_logic)
 );
 score_controller  u_score_controller(
     .clk,
@@ -65,14 +65,14 @@ score_controller  u_score_controller(
     .rst,
     .timing_tick,
     .y_pad_uart(y_player2_uart),
-    .sw(sw[2]),
+    .sw(sw[1]),
     .btnU,
     .btnD,
     .y_pad(y_player2_logic)
 );
 
  uart uart_unit (
-    .clk, 
+    .clk,
     .reset(rst),
     .rx,
     .tbuf({1'b1, y_player1, y_ball_logic, x_ball_logic}),
@@ -86,15 +86,18 @@ score_controller  u_score_controller(
         .rst,
         .x_ball_logic,
         .y_ball_logic,
+        .y_player1_logic,
         .y_player2_logic,
         .y_player2_uart,
         .x_ball_uart,
         .y_ball_uart,
-        .sw(sw[2]),
-       .y_player2_mux(y_player2),
-        . x_ball_mux(x_ball),
+        .sw(sw),
+        .y_player1_mux(y_player1),
+        .y_player2_mux(y_player2),
+        .x_ball_mux(x_ball),
         .y_ball_mux(y_ball)  
     );
+
  assign y_player2_uart = rx_buft[30:21];
  assign y_ball_uart = rx_buft[20:11];
  assign x_ball_uart = rx_buft[10:0];

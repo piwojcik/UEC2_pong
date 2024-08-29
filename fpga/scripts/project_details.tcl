@@ -48,9 +48,9 @@ set sv_files {
     ../rtl/graphic/draw_ball_pads.sv
     ../rtl/logic/top_logic.sv
     ../rtl/logic/score_controller.sv
-    ../rtl/logic/uart_buf_rx.sv
-    ../rtl/logic/uart_buf_tx.sv
-    ../rtl/logic/uart.sv
+    ../rtl/uart/uart_buf_rx.sv
+    ../rtl/uart/uart_buf_tx.sv
+    ../rtl/uart/uart.sv
     ../rtl/logic/player2_mux.sv
     rtl/top_vga_basys3.sv
 }
@@ -61,9 +61,9 @@ set sv_files {
     ../rtl/keyboard/bin2ascii.v
     ../rtl/keyboard/debouncer.v
     ../rtl/keyboard/PS2Receiver.v
-    ../rtl/logic/uart_tx.v
-    ../rtl/logic/uart_rx.v
-    ../rtl/logic/mod_m_counter.v
+    ../rtl/uart/uart_tx.v
+    ../rtl/uart/uart_rx.v
+    ../rtl/uart/mod_m_counter.v
  }
 
 # Specify VHDL design files location            -- EDIT

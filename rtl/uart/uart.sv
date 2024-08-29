@@ -12,7 +12,8 @@ module uart
                                // # words in FIFO=2^FIFO_W
     )
     (
-     input logic clk, reset,
+     input logic clk,
+     input logic reset,
      input logic rx,
      input logic [31:0] tbuf,
      input logic timing_tick,
@@ -25,13 +26,14 @@ module uart
     logic tstart, tready;
    logic timing_tick_delay;
   //  wire [31:0] tbuf;
-    wire [ 7:0] tbus;
-    wire [ 7:0] rxbus;
+    logic [ 7:0] tbus;
+    logic [ 7:0] rxbus;
     //body
+
     //delay aby wczytac nowe pozycje
     delay #(
     .WIDTH (1),
-    .CLK_DEL (4) //TODO doprecyzowac 
+    .CLK_DEL (3) //TODO doprecyzowac 
 ) u_delay_count (
     .clk(clk),
     .rst(reset),
