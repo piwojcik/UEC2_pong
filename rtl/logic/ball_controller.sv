@@ -6,7 +6,7 @@ module ball_controller (
     input  logic timing_tick,
     input  logic [9:0] y_pad_left,
     input  logic [1:0] state,
-    output  logic [9:0] y_pad_right,
+    input  logic [9:0] y_pad_right,
     output  logic [9:0] y_ball,
     output  logic [10:0] x_ball
   );
@@ -37,8 +37,8 @@ module ball_controller (
       x_ball <= (HOR_PIXELS - BALL_SIZE-1) / 2;
       down <= '0;
       right <= '0;
-      hor_ball_velocity <= 3;
-      ver_ball_velocity <= 3;
+      hor_ball_velocity <= 4;
+      ver_ball_velocity <= 4;
     end 
     else begin
       x_ball <= x_ball_nxt;
@@ -52,7 +52,7 @@ module ball_controller (
 
   always_comb begin
 
-  y_pad_right=((VER_PIXELS-72)/2);
+ // y_pad_right=((VER_PIXELS-72)/2);
   down_nxt = down;
   right_nxt = right;
   if(timing_tick)begin
@@ -64,7 +64,7 @@ module ball_controller (
       end
     end else begin
         y_ball_nxt = y_ball - ver_ball_velocity;
-        if(y_ball <= 5) begin
+        if(y_ball <= 10) begin
           down_nxt = 1'b1;
         end
     end

@@ -48,6 +48,7 @@ set sv_files {
     ../rtl/graphic/draw_state.sv
     ../rtl/logic/top_logic.sv
     ../rtl/logic/score_controller.sv
+    ../rtl/logic/player2_pad_controller.sv
     rtl/top_vga_basys3.sv
 }
 

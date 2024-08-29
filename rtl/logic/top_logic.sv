@@ -14,6 +14,9 @@ module top_logic (
      input  logic timing_tick,
      input  logic up,
      input  logic down,
+     input  logic btnU,
+     input  logic btnD,
+     input  logic [1:1] sw,
      output logic [10:0] x_ball,
      output logic [9:0] y_ball,
      output logic [1:0] state,
@@ -66,6 +69,16 @@ score_controller  u_score_controller(
     .player1_score,
     .player2_score
   );
+  player2_pad_controller u_player2_pad_controller (
+    .clk,
+    .rst,
+    .timing_tick,
+    .y_pad_uart(),
+    .sw,
+    .btnU,
+    .btnD,
+    .y_pad(y_player_2)
+);
 
 always_ff @(posedge clk) begin
     if(rst) begin
