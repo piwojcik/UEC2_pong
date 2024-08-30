@@ -75,7 +75,7 @@ score_controller  u_score_controller(
     .clk,
     .reset(rst),
     .rx,
-    .tbuf({1'b1, y_player1, y_ball_logic, x_ball_logic}),
+    .tbuf({1'b1, y_player1_logic, y_ball_logic, x_ball_logic}),
     .timing_tick,
     .tx,
     .rx_buf(rx_buft)
