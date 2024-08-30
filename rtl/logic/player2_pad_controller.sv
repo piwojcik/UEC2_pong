@@ -30,7 +30,7 @@
  assign y_pad_t = y_pad;                             // pad pozycja gory
  assign y_pad_b = y_pad_t + PAD_HEIGHT - 1;          // pad pozycja dolu
 logic [9:0] y_pad_next = 312;
-localparam PAD_VELOCITY = 3;                         // predkosc pada
+localparam PAD_VELOCITY = 5;                         // predkosc pada
 
 always_ff @(posedge clk)begin
     if(rst)begin

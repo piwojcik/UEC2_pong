@@ -27,5 +27,8 @@ localparam BALLSIZE =15;
 localparam PAD_HEIGHT = 145; 
 
 
+localparam menu_start = 2'b00;
+localparam play = 2'b01;
+localparam game_over = 2'b10;
 
 endpackage

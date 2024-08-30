@@ -28,6 +28,18 @@ sv work     ../../rtl/vga_pkg.sv  \
     ../../rtl/uart/uart_buf_rx.sv \
     ../../rtl/uart/uart.sv \
     ../../rtl/uart/uart_buf_tx.sv \
+        ../../rtl/delay.sv \
+        ../../rtl/logic/ball_controller.sv \
+        ../../rtl/logic/player_pad_controller.sv \
+        ../../rtl/logic/player2_pad_controller.sv \
+        ../../rtl/keyboard/keyboard_top.sv \
+        ../../rtl/keyboard/input_mux.sv \
+        ../../rtl/char/draw_score.sv \
+        ../../rtl/char/font_rom.sv \
+        ../../rtl/graphic/draw_ball_pads.sv \
+        ../../rtl/graphic/draw_state.sv \
+        ../../rtl/logic/top_logic.sv \
+        ../../rtl/logic/score_controller.sv \
     ../../fpga/rtl/top_vga_basys3.sv \
     ../common/tiff_writer.sv \
     ../../rtl/logic/player2_mux.sv \
@@ -38,9 +50,4 @@ sv work     ../../rtl/vga_pkg.sv  \
 # compile glbl module - required for IP simulation
 verilog work ../common/glbl.v \
              ../../fpga/rtl/clk_wiz_0_clk_wiz.v \
-             ../../rtl/uart/uart_tx.v  \
-             ../../rtl/uart/uart_rx.v  \
-             ../../rtl/logic/mod_m_counter.v  \
-             ../../rtl/keyboard/PS2Receiver.v \
-             ../../rtl/keyboard/debouncer.v
              
