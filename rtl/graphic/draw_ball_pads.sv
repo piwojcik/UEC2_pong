@@ -32,19 +32,19 @@ always_comb begin
     case(rom_addr)
         4'b0000: rom_data = 16'b0000000000000000;
         4'b0001: rom_data = 16'b0000001110000000;
-        4'b0010: rom_data = 16'b0000011111000000;
-        4'b0011: rom_data = 16'b0000111111100000;
-        4'b0100: rom_data = 16'b0001111111110000;
-        4'b0101: rom_data = 16'b0011111111111000;
+        4'b0010: rom_data = 16'b0000111111100000;
+        4'b0011: rom_data = 16'b0011111111111000;
+        4'b0100: rom_data = 16'b0011111111111000;
+        4'b0101: rom_data = 16'b0111111111111100;
         4'b0110: rom_data = 16'b0111111111111100;
         4'b0111: rom_data = 16'b1111111111111110;
         4'b1000: rom_data = 16'b1111111111111110;
         4'b1001: rom_data = 16'b1111111111111110;
         4'b1010: rom_data = 16'b0111111111111100;
-        4'b1011: rom_data = 16'b0011111111111000;
-        4'b1100: rom_data = 16'b0001111111110000;
-        4'b1101: rom_data = 16'b0000111111100000;
-        4'b1110: rom_data = 16'b0000011111000000;
+        4'b1011: rom_data = 16'b0111111111111100;
+        4'b1100: rom_data = 16'b0011111111111000;
+        4'b1101: rom_data = 16'b0011111111111000;
+        4'b1110: rom_data = 16'b0000111111100000;
         4'b1111: rom_data = 16'b0000001110000000;
     endcase
 end 
@@ -97,13 +97,18 @@ delay #(
 
 // Ustawienie koloru
 logic [11:0] rgb_nxt;
-logic [11:0] ball_rgb = 12'hF_F_F;
+logic [11:0] ball_rgb,ball_rgb_nxt;
 
 always_comb begin
+    
+      ball_rgb_nxt = ball_rgb + 4;
+
     if (game_field_in.vblnk || game_field_in.hblnk) begin
         rgb_nxt = 12'h0_0_0;
-    end else if (ball_on || pads_on) begin 
+    end else if (ball_on) begin 
         rgb_nxt = ball_rgb;
+    end else if (pads_on) begin 
+        rgb_nxt = 12'hF_F_F;
     end else begin
         rgb_nxt = game_field_in.rgb;
     end
@@ -112,8 +117,10 @@ end
 always_ff @(posedge clk) begin
     if (rst) begin
         game_field_out.rgb <= 12'h0_0_0;
+        ball_rgb <= 12'hF_F_F;
     end else begin
         game_field_out.rgb <= rgb_nxt;
+        ball_rgb <= ball_rgb_nxt;
     end 
 end
 
