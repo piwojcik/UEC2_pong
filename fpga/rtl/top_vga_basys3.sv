@@ -103,7 +103,7 @@ top_vga u_top_vga (
     .b(vgaBlue),
     .hs(Hsync),
     .vs(Vsync),
-    .x_ball(x_ball),
+    .x_ball(x_ball), l2v
     .y_ball(y_ball),
     .player1_score,
     .player2_score,
@@ -113,32 +113,32 @@ top_vga u_top_vga (
 keyboard_top u_keyboard_top (
     .clk(clk65mhz),
     .rst(btnC),
-    .PS2Data,
+    .PS2Data, key
     .PS2Clk,
     .sw(sw[0]),
     .btnU,
     .btnD,
     .up,
-    .down
+    .down 
 );
 
 top_logic u_top_logic (
     .clk(clk65mhz),
     .rst(btnC),
-    .timing_tick,
+    .timing_tick, v2l
     .up,
     .down,
     .sw(sw[2:1]),
     .btnU,
     .btnD,
     .rx(JC),
-    .tx(JB),
-    .y_player1,
-    .y_player2,
-    .x_ball(x_ball),
-    .y_ball(y_ball),
+    .tx(JB),  
+    .y_player1, 
+    .y_player2, 
+    .x_ball(x_ball), 
+    .y_ball(y_ball), 
     .player1_score,
-    .player2_score,
+    .player2_score, 
     .state(state)
 );
 endmodule
