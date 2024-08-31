@@ -4,7 +4,8 @@
  * Author: Piotr Kaczmarczyk
  *
  * Description:
- * Package with vga related constants.
+ * Package with project related constants.
+ *  Modified by: Jan Jurek, Piotr Wojcik
  */
 
 package vga_pkg;

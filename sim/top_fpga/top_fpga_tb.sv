@@ -40,7 +40,7 @@ logic clk, rst;
 wire pclk;
 wire vs, hs;
 wire [3:0] r, g, b;
-wire [1:0] sw;
+wire [2:0] sw;
 
 /**
  * Clock generation
@@ -55,7 +55,6 @@ end
 /**
  * Submodules instances
  */
-logic test, test1;
 top_vga_basys3 dut (
     .clk(clk),
     .btnC(rst),
@@ -64,7 +63,8 @@ top_vga_basys3 dut (
     .btnD(btnD),
     .PS2Clk(),
     .PS2Data(),
-    .JC({test1,test}),
+    .JC(),
+    .JB(),
     .Vsync(vs),
     .Hsync(hs),
     .vgaRed(r),

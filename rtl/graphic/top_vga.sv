@@ -9,7 +9,7 @@
  * Piotr Kaczmarczyk, Jan Jurek, Piotr Wojcik
  *
  * Description:
- * The project top module.
+ * The graphic top module.
  */
 
 `timescale 1 ns / 1 ps
@@ -76,7 +76,7 @@ vga_timing u_vga_timing (
 );
 vga_intf bg_bus();
 
-draw_bg u_draw_bg (
+draw_bg_score  u_draw_bg_score (
     .clk,
     .rst,
     .vcount_in (vcount_tim),
@@ -85,38 +85,30 @@ draw_bg u_draw_bg (
     .hcount_in (hcount_tim),
     .hsync_in  (hsync_tim),
     .hblnk_in  (hblnk_tim),
-    .bg_out (bg_bus)
-);
-
-vga_intf draw_score_bus();
-
-draw_score u_draw_score (
-    .clk,
-    .rst,
-    .rect_in (bg_bus),
-    .rect_out (draw_score_bus),
     .char_pixel(char_pixel),
     .player1_score,
     .player2_score,
     .char_code,
-    .char_line(char_line)
-    );
+    .char_line(char_line),
+    .bg_out (bg_bus)
+);
 
 font_rom u_font_rom(
     .clk,
     .addr({char_code, char_line}),
     .char_line_pixels(char_pixel)
 );
+
 vga_intf draw_state_bus();
 
-draw_ball_pads u_draw_ball_pads ( //zmienic na draw_states
+draw_ball_pads u_draw_ball_pads ( 
     .clk,
     .rst,
     .y_ball(y_ball),
     .x_ball(x_ball),
     .y_pad_right(y_player2),
     .y_pad_left(y_player1),
-    .game_field_in(draw_score_bus),
+    .game_field_in(bg_bus),
     .game_field_out(draw_state_bus)
 );
 draw_state u_draw_state (

@@ -32,28 +32,27 @@ set xdc_files {
 
 # Specify SystemVerilog design files location   -- EDIT
 set sv_files {
-    ../rtl/vga_pkg.sv
-    ../rtl/vga_timing.sv
-    ../rtl/draw_bg.sv
-    ../rtl/vga_if.sv
-    ../rtl/top_vga.sv
-    ../rtl/char/draw_score.sv
-    ../rtl/char/font_rom.sv
+    ../rtl/common/vga_pkg.sv
+    ../rtl/common/delay.sv
+    ../rtl/graphic/vga_timing.sv
+    ../rtl/graphic/draw_bg_score.sv
+    ../rtl/graphic/vga_if.sv
+    ../rtl/graphic/top_vga.sv
+    ../rtl/graphic/font_rom.sv
+    ../rtl/graphic/draw_ball_pads.sv
+    ../rtl/graphic/draw_state.sv
     ../rtl/logic/ball_controller.sv
     ../rtl/logic/player_pad_controller.sv
     ../rtl/logic/player2_pad_controller.sv
-    ../rtl/delay.sv
-    ../rtl/keyboard/keyboard_top.sv
-    ../rtl/keyboard/input_mux.sv
-    ../rtl/graphic/draw_ball_pads.sv
-    ../rtl/graphic/draw_state.sv
     ../rtl/logic/top_logic.sv
     ../rtl/logic/score_controller.sv
+    ../rtl/logic/player2_mux.sv
+    ../rtl/logic/player2_pad_controller.sv
     ../rtl/uart/uart_buf_rx.sv
     ../rtl/uart/uart_buf_tx.sv
     ../rtl/uart/uart.sv
-    ../rtl/logic/player2_mux.sv
-    ../rtl/logic/player2_pad_controller.sv
+    ../rtl/keyboard/keyboard_top.sv
+    ../rtl/keyboard/input_mux.sv
     rtl/top_vga_basys3.sv
 }
 

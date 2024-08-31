@@ -32,6 +32,7 @@ module top_vga_basys3 (
  */
 
 wire clk_in, clk_fb, clk_ss, clk_out;
+wire clk65mhz;
 wire locked;
 wire pclk;
 wire pclk_mirror;
@@ -84,8 +85,7 @@ ODDR pclk_oddr (
 clk_wiz_0_clk_wiz clk_gen
     (
      // Clock out ports
-     .clk100MHz(clk100mhz),
-     .clk65MHz(clk65mhz),
+     .clk65mhz,
      // Status and control signals
      .locked(),
     // Clock in ports
