@@ -53,6 +53,7 @@ set sv_files {
     ../rtl/uart/uart.sv
     ../rtl/keyboard/keyboard_top.sv
     ../rtl/keyboard/input_mux.sv
+    ../rtl/top_pong.sv
     rtl/top_vga_basys3.sv
 }
 
