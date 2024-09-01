@@ -1,6 +1,7 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
+# Modified: Piotr Wojcik, Jan Jurek 
 #
 # Description:
 # List of files defining the modules used during the test.
@@ -9,7 +10,7 @@
 # https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
 
 
-sv work     ../../rtl/vga_pkg.sv  \
+sv work     ../../rtl/common/vga_pkg.sv  \
     ../../rtl/graphic/vga_timing.sv  \
     ../../rtl/graphic/draw_bg_score.sv  \
     ../../rtl/graphic/vga_if.sv  \
@@ -18,7 +19,7 @@ sv work     ../../rtl/vga_pkg.sv  \
     ../../rtl/logic/ball_controller.sv  \
     ../../rtl/logic/player_pad_controller.sv  \
     ../../rtl/logic/player2_pad_controller.sv  \
-    ../../rtl/delay.sv  \
+    ../../rtl/common/delay.sv  \
     ../../rtl/keyboard/keyboard_top.sv  \
     ../../rtl/keyboard/input_mux.sv  \
     ../../rtl/graphic/draw_ball_pads.sv  \
@@ -27,13 +28,11 @@ sv work     ../../rtl/vga_pkg.sv  \
     ../../rtl/uart/uart_buf_rx.sv \
     ../../rtl/uart/uart.sv \
     ../../rtl/uart/uart_buf_tx.sv \
-        ../../rtl/delay.sv \
         ../../rtl/logic/ball_controller.sv \
         ../../rtl/logic/player_pad_controller.sv \
         ../../rtl/logic/player2_pad_controller.sv \
         ../../rtl/keyboard/keyboard_top.sv \
         ../../rtl/keyboard/input_mux.sv \
-        ../../rtl/graphic/draw_score.sv \
         ../../rtl/graphic/font_rom.sv \
         ../../rtl/graphic/draw_ball_pads.sv \
         ../../rtl/graphic/draw_state.sv \

@@ -19,10 +19,7 @@
 //     Known issue, when multiple buttons are pressed and one is released, the scan code of the one still held down is ometimes re-sent.
 // https://github.com/Digilent/Basys-3-Keyboard
 //
-// Modified by:
-// 2024  AGH University of Science and Technology
-// MTM UEC2
-// Jan Jurek
+// Modified by: Jan Jurek
 //////////////////////////////////////////////////////////////////////////////////
 
 

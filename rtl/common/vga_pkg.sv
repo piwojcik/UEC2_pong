@@ -1,11 +1,7 @@
 /**
- * Copyright (C) 2023  AGH University of Science and Technology
- * MTM UEC2
- * Author: Piotr Kaczmarczyk
- *
  * Description:
  * Package with project related constants.
- *  Modified by: Jan Jurek, Piotr Wojcik
+ *  Authors: Jan Jurek, Piotr Wojcik
  */
 
 package vga_pkg;
@@ -25,11 +21,13 @@ localparam VSYNCSTART = 771;
 localparam VSYNCTIME= 6;
 
 //Parametry padow i pilki
-localparam PAD_HEIGHT = 145; 
+localparam TOP_BORDER = 32;
+localparam BOTTOM_BORDER = 768;
+localparam PAD_HEIGHT = 100; 
 localparam PAD_WIDTH = 15;
 localparam X_PAD_RIGHT = 979;
 localparam X_PAD_LEFT = 30;
-localparam PAD_VELOCITY = 5;                         // predkosc pada
+localparam PAD_VELOCITY = 9;                    
 localparam BALL_SIZE = 15;
 
 //Kodowanie stanow
@@ -40,7 +38,7 @@ localparam GAME_OVER = 2'b10;
  //Parametry tekstu
 localparam CHAR_WIDTH = 8;
 localparam CHAR_HEIGHT = 16;
-localparam SCALE = 8; // skalowanie liter
+localparam SCALE = 8; 
 localparam SCALE2 = 2;
 
 endpackage

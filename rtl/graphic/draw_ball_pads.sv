@@ -99,7 +99,7 @@ delay #(
 
 always_comb begin
     
-      ball_rgb_nxt = ball_rgb + 4;
+    ball_rgb_nxt = ball_rgb + 4; // zmiana koloru pilki
 
     if (game_field_in.vblnk || game_field_in.hblnk) begin
         rgb_nxt = 12'h0_0_0;

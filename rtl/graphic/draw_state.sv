@@ -22,7 +22,7 @@
  import vga_pkg::*;
  
  // Obliczanie pozycji tekstow
- localparam TITLE_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE * 4) / 2);
+ localparam TITLE_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE * 11) / 2);
  localparam TITLE_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE / 2);
 
  localparam OVER_X_POS = (HOR_PIXELS / 2) - (CHAR_WIDTH * SCALE * 9 / 2);
@@ -31,8 +31,8 @@
  localparam WINNER_X_POS = (HOR_PIXELS / 2) - (CHAR_WIDTH * SCALE2 * 13 / 2);
  localparam WINNER_Y_POS = OVER_Y_POS + CHAR_HEIGHT * SCALE + 20;
 
- localparam AUTHORS_X_POS = HOR_PIXELS - (HOR_PIXELS / 4);
- localparam AUTHORS_Y_POS = VER_PIXELS - 120;
+ localparam AUTHORS_X_POS = HOR_PIXELS - (HOR_PIXELS / 4) - ((CHAR_WIDTH * SCALE2 * 10) / 2);
+ localparam AUTHORS_Y_POS = VER_PIXELS - 50 -(CHAR_HEIGHT * SCALE2 / 2);;
 
  localparam AGH_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE2 * 7) / 2);
  localparam AGH_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE2 / 2) - 150;
@@ -68,8 +68,8 @@
  
  assign winner = (player1_score > player2_score) ? 7'h31 : 7'h32;
 
- assign authors_on = ((game_in.hcount >= AUTHORS_X_POS) && (game_in.hcount < AUTHORS_X_POS + CHAR_WIDTH * 10) &&
-                    (game_in.vcount >= AUTHORS_Y_POS) && (game_in.vcount < AUTHORS_Y_POS + CHAR_HEIGHT));
+ assign authors_on = ((game_in.hcount >= AUTHORS_X_POS) && (game_in.hcount < AUTHORS_X_POS + CHAR_WIDTH * SCALE2  * 10) &&
+                    (game_in.vcount >= AUTHORS_Y_POS) && (game_in.vcount < AUTHORS_Y_POS + CHAR_HEIGHT * SCALE2 ));
 
  assign agh_on = ((game_in.hcount >= AGH_X_POS) && (game_in.hcount < AGH_X_POS + CHAR_WIDTH * SCALE2 * 7) &&
                     (game_in.vcount >= AGH_Y_POS) && (game_in.vcount < AGH_Y_POS + CHAR_HEIGHT * SCALE2));
@@ -95,8 +95,8 @@
                  default: char_code = 7'b0;
              endcase
          end else if (authors_on) begin 
-            char_line_nxt = (game_in.vcount - AUTHORS_Y_POS);
-            case ((game_in.hcount - AUTHORS_X_POS) / (CHAR_WIDTH))
+            char_line_nxt = (game_in.vcount - AUTHORS_Y_POS) /  SCALE2 ;
+            case ((game_in.hcount - AUTHORS_X_POS) / (CHAR_WIDTH *  SCALE2 ))
                 0: char_code = 7'h42; // code for 'B'
                 1: char_code = 7'h79; // code for 'y'
                 2: char_code = 7'h00; // code for ' '
@@ -110,13 +110,13 @@
                 default: char_code = 7'b0;
             endcase
          end else if (agh_on) begin 
-            char_line_nxt = (game_in.vcount - AGH_Y_POS);
-            case ((game_in.hcount - AGH_X_POS) / (CHAR_WIDTH))
+            char_line_nxt = (game_in.vcount - AGH_Y_POS) / SCALE2;
+            case ((game_in.hcount - AGH_X_POS) / (CHAR_WIDTH * SCALE2))
                 0: char_code = 7'h4D; // code for 'M'
                 1: char_code = 7'h54; // code for 'T'
                 2: char_code = 7'h4D; // code for 'M'
                 3: char_code = 7'h00; // code for ' '
-                4: char_code = 7'h61; // code for 'A'
+                4: char_code = 7'h41; // code for 'A'
                 5: char_code = 7'h47; // code for 'G'
                 6: char_code = 7'h48; // code for 'H'
                 default: char_code = 7'b0;
@@ -191,13 +191,13 @@
                 rgb_nxt = game_in.rgb;
             end 
          end else if (authors_on) begin 
-            if(char_line_pixels[7 - (game_in.hcount - AUTHORS_X_POS) % CHAR_WIDTH]) begin
-                rgb_nxt = 12'hF_0_F;       
+            if(char_line_pixels[7 - ((game_in.hcount - AUTHORS_X_POS) / SCALE2) % CHAR_WIDTH]) begin
+                rgb_nxt = 12'h0_F_0;       
             end else begin
                 rgb_nxt = game_in.rgb;
             end 
          end else if (agh_on) begin 
-            if(char_line_pixels[7 - (game_in.hcount - AGH_X_POS) % CHAR_WIDTH]) begin
+            if(char_line_pixels[7 - ((game_in.hcount - AGH_X_POS)/ SCALE2) % CHAR_WIDTH]) begin
                 rgb_nxt = 12'h0_F_0; 
             end else begin
                 rgb_nxt = game_in.rgb;

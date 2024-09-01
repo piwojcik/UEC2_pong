@@ -46,7 +46,7 @@
     player1_scored_nxt = player1_scored;
     
     if(timing_tick) begin
-        if(x_ball < X_PAD_LEFT)begin // do ew poprawki glebokosci
+        if(x_ball + BALL_SIZE <= X_PAD_LEFT)begin
             player2_scored_nxt = 1; 
         end else if(x_ball + BALL_SIZE > X_PAD_RIGHT + PAD_WIDTH)begin
             player1_scored_nxt = 1;

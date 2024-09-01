@@ -5,6 +5,7 @@
  *
  * Description:
  * Vga timing controller.
+ * Modified by: Jan Jurek 
  */
 
  `timescale 1 ns / 1 ps

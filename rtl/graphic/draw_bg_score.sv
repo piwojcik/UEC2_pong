@@ -37,9 +37,9 @@ import vga_pkg::*;
 /**
  * Local variables and signals
  */
-localparam WIDTH = 8; // zaczyna od 1 dla 0 nie wyswietla
-localparam HEIGHT = 16; // zaczyna od 1 dla 0 nie wyswietla
-localparam STARTY = 32;
+localparam WIDTH = 8; 
+localparam HEIGHT = 16; 
+localparam STARTY = 16;
 localparam STARTX = 512;
 
 logic [2:0] i, i_nxt =0;
@@ -49,7 +49,7 @@ logic [10:0] temp_var;
 /**
  * Internal logic
  */
-assign temp_var = vcount_in + 12;
+assign temp_var = vcount_in + 4; // offset lini przerywanej
 always_ff @(posedge clk) begin : bg_ff_blk
     if (rst) begin
         bg_out.rgb    <= '0;
@@ -109,16 +109,25 @@ always_comb begin : bg_comb_blk
                 rgb_nxt = 12'h8_8_8;; 
                 i_nxt = 0;             
             end
-
-        end else if (hcount_in >= 511 & hcount_in <= 513) begin // middle line
-            if (temp_var[5] == 0) begin
-                rgb_nxt = 12'h0_7_0;
-                i_nxt = 0;
-            end else begin
-                rgb_nxt = 12'h8_8_8;
-                i_nxt = 0; 
+        end else if(bg_out.vcount == TOP_BORDER || bg_out.vcount == TOP_BORDER + 1) begin
+            rgb_nxt = 12'hF_F_F;                // - fill with white.
+            i_nxt = 0;
+        end else if(bg_out.vcount == BOTTOM_BORDER - 1 || bg_out.vcount == BOTTOM_BORDER - 2) begin
+            rgb_nxt = 12'hF_F_F;                // - fill with white.
+            i_nxt = 0;
+        end  else if(bg_out.vcount > TOP_BORDER) begin
+            if (bg_out.hcount >= 511 & bg_out.hcount <= 513) begin // middle line
+                if (temp_var[5] == 0) begin
+                    rgb_nxt = 12'h0_7_0;
+                    i_nxt = 0;
+                end else begin   
+                    rgb_nxt = 12'h8_8_8;; 
+                    i_nxt = 0;             
+                end
+            end else begin   
+                rgb_nxt = 12'h8_8_8;; 
+                i_nxt = 0;             
             end
-
         end else begin                                   
             rgb_nxt = 12'h8_8_8;                // - fill with gray.
             i_nxt = 0;

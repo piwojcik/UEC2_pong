@@ -128,7 +128,7 @@ always_comb begin
             end
         end
         PLAY: begin
-            if((player1_score >= 9) || (player2_score >= 9)) begin
+            if((player1_score >= 3) || (player2_score >= 3)) begin
                 state_nxt = GAME_OVER;
             end
         end

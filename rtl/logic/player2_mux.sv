@@ -3,8 +3,9 @@
  * MTM UEC2
  * Author: Piotr Wojcik
  *
- * Description:
+ * Modified by: Jan Jurek
  * 
+ * Description: Choose source of signal
  */
 `timescale 1 ns / 1 ps
 
