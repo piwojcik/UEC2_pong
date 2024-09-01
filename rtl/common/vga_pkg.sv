@@ -4,7 +4,8 @@
  * Author: Piotr Kaczmarczyk
  *
  * Description:
- * Package with vga related constants.
+ * Package with project related constants.
+ *  Modified by: Jan Jurek, Piotr Wojcik
  */
 
 package vga_pkg;
@@ -23,12 +24,23 @@ localparam HSYNCTIME= 136;
 localparam VSYNCSTART = 771;
 localparam VSYNCTIME= 6;
 
-localparam BALLSIZE =15;
+//Parametry padow i pilki
 localparam PAD_HEIGHT = 145; 
+localparam PAD_WIDTH = 15;
+localparam X_PAD_RIGHT = 979;
+localparam X_PAD_LEFT = 30;
+localparam PAD_VELOCITY = 5;                         // predkosc pada
+localparam BALL_SIZE = 15;
 
+//Kodowanie stanow
+localparam MENU_START = 2'b00;
+localparam PLAY = 2'b01;
+localparam GAME_OVER = 2'b10;
 
-localparam menu_start = 2'b00;
-localparam play = 2'b01;
-localparam game_over = 2'b10;
+ //Parametry tekstu
+localparam CHAR_WIDTH = 8;
+localparam CHAR_HEIGHT = 16;
+localparam SCALE = 8; // skalowanie liter
+localparam SCALE2 = 2;
 
 endpackage

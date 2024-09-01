@@ -32,18 +32,11 @@ module top_vga_basys3 (
  */
 
 wire clk_in, clk_fb, clk_ss, clk_out;
+wire clk65mhz;
 wire locked;
 wire pclk;
 wire pclk_mirror;
-logic [10:0] x_ball;
-logic [9:0] y_ball;
 
-logic timing_tick;
-logic up, down;
-logic [9:0] y_player1;
-logic [9:0] y_player2;
-logic [1:0] state;
-logic [3:0] player1_score, player2_score;
 
 
 (* KEEP = "TRUE" *)
@@ -77,68 +70,34 @@ ODDR pclk_oddr (
     .S(1'b0)
 );
 
-
-/**
- *  Project functional top module
- */
 clk_wiz_0_clk_wiz clk_gen
     (
      // Clock out ports
-     .clk100MHz(clk100mhz),
-     .clk65MHz(clk65mhz),
+     .clk65mhz,
      // Status and control signals
      .locked(),
     // Clock in ports
      .clk(clk)         
     );
 
-top_vga u_top_vga (
+/**
+ *  Project functional top module
+ */
+top_pong u_top_pong(
     .clk(clk65mhz),
     .rst(btnC),
-    .y_player1,
-    .y_player2,
-    .timing_tick,
-    .r(vgaRed),
-    .g(vgaGreen),
-    .b(vgaBlue),
-    .hs(Hsync),
-    .vs(Vsync),
-    .x_ball(x_ball), l2v
-    .y_ball(y_ball),
-    .player1_score,
-    .player2_score,
-    .state(state)
+    .sw(sw),
+    .btnU(btnU),
+    .btnD(btnD),
+    .PS2Clk(PS2Clk),
+    .PS2Data(PS2Data),
+    .tx(JB[0]),
+    .rx(JC[0]),
+    .Vsync(Vsync),
+    .Hsync(Hsync),
+    .vgaRed(vgaRed),
+    .vgaGreen(vgaGreen),
+    .vgaBlue(vgaBlue)
+    );
 
-);
-keyboard_top u_keyboard_top (
-    .clk(clk65mhz),
-    .rst(btnC),
-    .PS2Data, key
-    .PS2Clk,
-    .sw(sw[0]),
-    .btnU,
-    .btnD,
-    .up,
-    .down 
-);
-
-top_logic u_top_logic (
-    .clk(clk65mhz),
-    .rst(btnC),
-    .timing_tick, v2l
-    .up,
-    .down,
-    .sw(sw[2:1]),
-    .btnU,
-    .btnD,
-    .rx(JC),
-    .tx(JB),  
-    .y_player1, 
-    .y_player2, 
-    .x_ball(x_ball), 
-    .y_ball(y_ball), 
-    .player1_score,
-    .player2_score, 
-    .state(state)
-);
 endmodule

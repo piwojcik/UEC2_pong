@@ -1,3 +1,11 @@
+/**
+ * MTM UEC2
+ * Author: Piotr Wojcik
+ *
+ * Description:
+ * Drawing ball and pads
+ */
+
 `timescale 1 ns / 1 ps
 
 module draw_ball_pads (
@@ -12,13 +20,10 @@ module draw_ball_pads (
     vga_intf.out game_field_out 
 );
 
-localparam BALL_SIZE = 15;
-localparam PAD_HEIGHT = 145; 
-localparam PAD_WIDTH = 15;
-localparam X_PAD_LEFT = 30;
-localparam X_PAD_RIGHT = 979;
-
 import vga_pkg::*;
+
+logic [11:0] rgb_nxt;
+logic [11:0] ball_rgb, ball_rgb_nxt;
 
 // Granice prostokąta otaczającego koło
 logic [10:0] x_ball_left, x_ball_right, y_ball_top, y_ball_bottom; 
@@ -27,7 +32,6 @@ logic [15:0] rom_data;
 wire rom_bit;
 wire [10:0] sq_ball_on, ball_on, pads_on;
 
-// Definicja danych ROM dla koła
 always_comb begin
     case(rom_addr)
         4'b0000: rom_data = 16'b0000000000000000;
@@ -73,7 +77,6 @@ assign  pads_on = ((game_field_in.hcount >= X_PAD_RIGHT) && (game_field_in.hcoun
                   || ((game_field_in.hcount >= X_PAD_LEFT) && (game_field_in.hcount <= X_PAD_LEFT + PAD_WIDTH)
                   && (game_field_in.vcount >= y_pad_left) && (game_field_in.vcount <= y_pad_left + PAD_HEIGHT));
 
-// Opóźnienie sygnałów licznika i sygnałów synchronizacji
 delay #(
     .WIDTH (22),
     .CLK_DEL (2)
@@ -93,11 +96,6 @@ delay #(
     .din({game_field_in.vsync, game_field_in.vblnk, game_field_in.hsync, game_field_in.hblnk}),
     .dout({game_field_out.vsync, game_field_out.vblnk, game_field_out.hsync, game_field_out.hblnk}) 
 );
-
-
-// Ustawienie koloru
-logic [11:0] rgb_nxt;
-logic [11:0] ball_rgb,ball_rgb_nxt;
 
 always_comb begin
     

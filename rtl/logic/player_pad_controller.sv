@@ -22,16 +22,15 @@
 
  //zmienne pada
 
- localparam PAD_HEIGHT = 145;  
  logic [9:0] y_pad_t, y_pad_b;
- assign y_pad_t = y_pad;                             // pad pozycja gory
- assign y_pad_b = y_pad_t + PAD_HEIGHT - 1;          // pad pozycja dolu
  logic [9:0] y_pad_next = 312;
- localparam PAD_VELOCITY = 5;                         // predkosc pada
  logic up, down;
 
+ assign y_pad_t = y_pad;                             // pad pozycja gory
+ assign y_pad_b = y_pad_t + PAD_HEIGHT - 1;          // pad pozycja dolu
+
  always_ff @(posedge clk)begin
-    if(rst || (state != play ))begin
+    if(rst || (state != PLAY ))begin
         y_pad <= 312;
     end else begin
         y_pad <= y_pad_next;

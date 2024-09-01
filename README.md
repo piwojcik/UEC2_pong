@@ -3,10 +3,10 @@
 ## Klonowanie repozytorium
 
 ```bash
-git clone git@github.com:agh-riscv/uec2_lab1
+git clone https://github.com/piwojcik/UEC2_pong
 ```
 
-**Wszystkie komendy należy wywoływać z głównego folderu projektu** (w tym wypadku `uec2_lab1`).\
+**Wszystkie komendy należy wywoływać z głównego folderu projektu** (w tym wypadku `UEC2_pong`).\
 _Każdy plik w projekcie posiada nagłówek z krótkim opisem jego funkcji._
 
 ## Inicjalizacja środowiska

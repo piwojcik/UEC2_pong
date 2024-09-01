@@ -19,17 +19,13 @@
 
  import vga_pkg::*;
 
- localparam X_PAD_R = 979;
- localparam X_PAD_L = 30;
- localparam BALL_SIZE = 15;
-
  logic [3:0] player1_score_nxt;
  logic [3:0] player2_score_nxt;
  logic player1_scored = '0, player2_scored = '0;
  logic player1_scored_nxt = '0, player2_scored_nxt = '0;
 
  always_ff @(posedge clk)begin
-    if(rst || (state == menu_start))begin
+    if(rst || (state == MENU_START))begin
         player1_score <= '0;
         player2_score <= '0;
         player1_scored <= '0;
@@ -50,9 +46,9 @@
     player1_scored_nxt = player1_scored;
     
     if(timing_tick) begin
-        if(x_ball < X_PAD_L)begin // do ew poprawki glebokosci
+        if(x_ball < X_PAD_LEFT)begin // do ew poprawki glebokosci
             player2_scored_nxt = 1; 
-        end else if(x_ball > X_PAD_R - BALL_SIZE/2)begin
+        end else if(x_ball + BALL_SIZE > X_PAD_RIGHT + PAD_WIDTH)begin
             player1_scored_nxt = 1;
         
         end else if(player1_scored & player1_score < 9)begin // zabezpieczenie aby naliczyc tylko 1 punkt i max 9 punktow

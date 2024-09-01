@@ -28,15 +28,16 @@ module top_logic (
      output logic [3:0] player2_score
  );
 //signals
- logic [9:0] y_player2_uart, y_player1_logic, y_player2_logic ,y_ball_uart, y_ball_logic;
- logic [10:0] x_ball_uart, x_ball_logic;
- logic [31:0] rx_buft;
+logic [9:0] y_player2_uart, y_player1_logic, y_player2_logic ,y_ball_uart, y_ball_logic;
+logic [10:0] x_ball_uart, x_ball_logic;
+logic [31:0] rx_buft;
+logic [1:0] state_nxt;
 
 wire [10:0] x_ball_n;
 wire [10:0] y_ball_n;
-logic [1:0] state_nxt;
 
 import vga_pkg::*;
+
 ball_controller u_ball_controller(
     .clk,
     .rst,
@@ -112,33 +113,32 @@ score_controller  u_score_controller(
  
 always_ff @(posedge clk) begin
     if(rst) begin
-        state <= menu_start;
+        state <= MENU_START;
     end else begin
         state <= state_nxt;
     end
 end
 
 always_comb begin
-    // Domyślnie przypisanie obecnego stanu do następnego
     state_nxt = state;
     case(state)
-        menu_start: begin
+        MENU_START: begin
             if(up) begin
-                state_nxt = play;
+                state_nxt = PLAY;
             end
         end
-        play: begin
-            if((player1_score >= 5) || (player2_score >= 5)) begin
-                state_nxt = game_over;
+        PLAY: begin
+            if((player1_score >= 9) || (player2_score >= 9)) begin
+                state_nxt = GAME_OVER;
             end
         end
-        game_over: begin
+        GAME_OVER: begin
             if(down) begin         
-                state_nxt = menu_start;
+                state_nxt = MENU_START;
             end
         end
         default: begin
-            state_nxt = menu_start; // Bezpieczne ustawienie domyślnego stanu
+            state_nxt = MENU_START;
         end
     endcase
 end

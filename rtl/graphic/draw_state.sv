@@ -4,7 +4,7 @@
  * Author: Piotr Wojcik
  *
  * Description:
- * Draw rectangle.
+ * Draw state
  */
 
  `timescale 1 ns / 1 ps
@@ -21,35 +21,35 @@
  );
  import vga_pkg::*;
  
- //Parametry tekstu
- localparam CHAR_WIDTH = 8;
- localparam CHAR_HEIGHT = 16;
- localparam SCALE = 8; // skalowanie liter
- localparam SCALE2 = 2; // skalowanie - mniejsza czcionka
- 
- // Obliczanie pozycji "MENU"
- localparam MENU_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE * 4) / 2);
- localparam MENU_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE / 2);
- // Obliczanie pozycji "GAME OVER"
+ // Obliczanie pozycji tekstow
+ localparam TITLE_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE * 4) / 2);
+ localparam TITLE_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE / 2);
+
  localparam OVER_X_POS = (HOR_PIXELS / 2) - (CHAR_WIDTH * SCALE * 9 / 2);
  localparam OVER_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE / 2);
- // Obliczanie pozycji "PLAYER X WINS"
+
  localparam WINNER_X_POS = (HOR_PIXELS / 2) - (CHAR_WIDTH * SCALE2 * 13 / 2);
  localparam WINNER_Y_POS = OVER_Y_POS + CHAR_HEIGHT * SCALE + 20;
+
+ localparam AUTHORS_X_POS = HOR_PIXELS - (HOR_PIXELS / 4);
+ localparam AUTHORS_Y_POS = VER_PIXELS - 120;
+
+ localparam AGH_X_POS = (HOR_PIXELS / 2) - ((CHAR_WIDTH * SCALE2 * 7) / 2);
+ localparam AGH_Y_POS = (VER_PIXELS / 2) - (CHAR_HEIGHT * SCALE2 / 2) - 150;
+
  
- 
- logic [3:0] char_line;
+ logic [3:0] char_line, char_line_nxt;
  logic [6:0] char_code;
  logic [10:0] rom_addr;
  logic [7:0] char_line_pixels;
  logic [11:0] rgb_nxt;
- wire [10:0] menu_on;
+ wire [10:0] title_on;
+ wire [10:0] agh_on;
  wire [10:0] over_on;
  wire [10:0] winner_on;
- wire [10:0] winner;
- 
- 
- // Deklaracja podmodulu
+ wire [6:0] winner;
+ wire [10:0] authors_on;
+
  font_rom font_inst (
      .clk(clk),
      .addr(rom_addr),
@@ -57,70 +57,113 @@
  );
  
  //Miejsce wyswietlenia tekstu
- assign menu_on = ((game_in.hcount >= MENU_X_POS) && (game_in.hcount < MENU_X_POS + CHAR_WIDTH * SCALE * 4) &&
-                 (game_in.vcount >= MENU_Y_POS) && (game_in.vcount < MENU_Y_POS + CHAR_HEIGHT * SCALE));
+ assign title_on = ((game_in.hcount >= TITLE_X_POS) && (game_in.hcount < TITLE_X_POS + CHAR_WIDTH * SCALE * 11) &&
+                 (game_in.vcount >= TITLE_Y_POS) && (game_in.vcount < TITLE_Y_POS + CHAR_HEIGHT * SCALE));
                  
  assign over_on = ((game_in.hcount >= OVER_X_POS) && (game_in.hcount < OVER_X_POS + CHAR_WIDTH * SCALE * 9) &&
                  (game_in.vcount >= OVER_Y_POS) && (game_in.vcount < OVER_Y_POS + CHAR_HEIGHT * SCALE));
  
- assign winner_on = ((game_in.hcount >= WINNER_X_POS) && (game_in.hcount < WINNER_X_POS + CHAR_WIDTH * SCALE * 13) &&
+ assign winner_on = ((game_in.hcount >= WINNER_X_POS) && (game_in.hcount < WINNER_X_POS + CHAR_WIDTH * SCALE2 * 13) &&
                  (game_in.vcount >= WINNER_Y_POS) && (game_in.vcount < WINNER_Y_POS + CHAR_HEIGHT * SCALE2));
- // Ktory gracz wygral
+ 
  assign winner = (player1_score > player2_score) ? 7'h31 : 7'h32;
+
+ assign authors_on = ((game_in.hcount >= AUTHORS_X_POS) && (game_in.hcount < AUTHORS_X_POS + CHAR_WIDTH * 10) &&
+                    (game_in.vcount >= AUTHORS_Y_POS) && (game_in.vcount < AUTHORS_Y_POS + CHAR_HEIGHT));
+
+ assign agh_on = ((game_in.hcount >= AGH_X_POS) && (game_in.hcount < AGH_X_POS + CHAR_WIDTH * SCALE2 * 7) &&
+                    (game_in.vcount >= AGH_Y_POS) && (game_in.vcount < AGH_Y_POS + CHAR_HEIGHT * SCALE2));
  
   // Generacja adresu ROM na podstawie pozycji pixela
  always_comb begin
-     if (state == menu_start) begin
-         if(menu_on) begin    
-             char_line = (game_in.vcount - MENU_Y_POS) / SCALE;
-             case ((game_in.hcount - MENU_X_POS) / (CHAR_WIDTH * SCALE))
-                 0: char_code = 7'h4D; // ASCII code for 'M'
-                 1: char_code = 7'h45; // ASCII code for 'E'
-                 2: char_code = 7'h4E; // ASCII code for 'N'
-                 3: char_code = 7'h55; // ASCII code for 'U'
+    char_line_nxt = char_line;
+     if (state == MENU_START) begin
+         if(title_on) begin    
+             char_line_nxt = (game_in.vcount - TITLE_Y_POS) / SCALE;
+             case ((game_in.hcount - TITLE_X_POS) / (CHAR_WIDTH * SCALE))
+                 0: char_code = 7'h50; // code for 'P'
+                 1: char_code = 7'h69; // code for 'I'
+                 2: char_code = 7'h78; // code for 'X'
+                 3: char_code = 7'h65; // code for 'E'
+                 4: char_code = 7'h6C; // code for 'L'
+                 5: char_code = 7'h50; // code for 'P'
+                 6: char_code = 7'h61; // code for 'A'
+                 7: char_code = 7'h64; // code for 'D'
+                 8: char_code = 7'h64; // code for 'D'
+                 9: char_code = 7'h6C; // code for 'L'
+                 10: char_code = 7'h65; // code for 'E'
                  default: char_code = 7'b0;
              endcase
+         end else if (authors_on) begin 
+            char_line_nxt = (game_in.vcount - AUTHORS_Y_POS);
+            case ((game_in.hcount - AUTHORS_X_POS) / (CHAR_WIDTH))
+                0: char_code = 7'h42; // code for 'B'
+                1: char_code = 7'h79; // code for 'y'
+                2: char_code = 7'h00; // code for ' '
+                3: char_code = 7'h50; // code for 'P'
+                4: char_code = 7'h57; // code for 'W'
+                5: char_code = 7'h00; // code for ' '
+                6: char_code = 7'h26; // code for '&'
+                7: char_code = 7'h00; // code for ' '
+                8: char_code = 7'h4A; // code for 'J'
+                9: char_code = 7'h4A; // code for 'J'
+                default: char_code = 7'b0;
+            endcase
+         end else if (agh_on) begin 
+            char_line_nxt = (game_in.vcount - AGH_Y_POS);
+            case ((game_in.hcount - AGH_X_POS) / (CHAR_WIDTH))
+                0: char_code = 7'h4D; // code for 'M'
+                1: char_code = 7'h54; // code for 'T'
+                2: char_code = 7'h4D; // code for 'M'
+                3: char_code = 7'h00; // code for ' '
+                4: char_code = 7'h61; // code for 'A'
+                5: char_code = 7'h47; // code for 'G'
+                6: char_code = 7'h48; // code for 'H'
+                default: char_code = 7'b0;
+            endcase
          end else begin
              char_code = 7'b0;
          end 
-     end else if(state == game_over) begin
+     end else if(state == GAME_OVER) begin
          if(over_on)begin
-             char_line = (game_in.vcount - OVER_Y_POS) / SCALE;
+            char_line_nxt = (game_in.vcount - OVER_Y_POS) / SCALE;
              case ((game_in.hcount - OVER_X_POS) / (CHAR_WIDTH * SCALE))
-                 0: char_code = 7'h47; // ASCII code for 'G'
-                 1: char_code = 7'h41; // ASCII code for 'A'
-                 2: char_code = 7'h4D; // ASCII code for 'M'
-                 3: char_code = 7'h45; // ASCII code for 'E'
-                 4: char_code = 7'h00; // ASCII code for ' '
-                 5: char_code = 7'h4F; // ASCII code for 'O'
-                 6: char_code = 7'h56; // ASCII code for 'V'
-                 7: char_code = 7'h45; // ASCII code for 'E'
-                 8: char_code = 7'h52; // ASCII code for 'R'
+                 0: char_code = 7'h47; // code for 'G'
+                 1: char_code = 7'h41; // code for 'A'
+                 2: char_code = 7'h4D; // code for 'M'
+                 3: char_code = 7'h45; // code for 'E'
+                 4: char_code = 7'h00; // code for ' '
+                 5: char_code = 7'h4F; // code for 'O'
+                 6: char_code = 7'h56; // code for 'V'
+                 7: char_code = 7'h45; // code for 'E'
+                 8: char_code = 7'h52; // code for 'R'
                  default: char_code = 7'b0;
              endcase
          end else if(winner_on)begin
-             char_line = (game_in.vcount - WINNER_Y_POS) / SCALE2;
+            char_line_nxt = (game_in.vcount - WINNER_Y_POS) / SCALE2;
              case ((game_in.hcount - WINNER_X_POS) / (CHAR_WIDTH * SCALE2))
-                 0: char_code = 7'h50; // ASCII code for 'P'
-                 1: char_code = 7'h4c; // ASCII code for 'L'
-                 2: char_code = 7'h41; // ASCII code for 'A'
-                 3: char_code = 7'h59; // ASCII code for 'Y'
-                 4: char_code = 7'h45; // ASCII code for 'E'
-                 5: char_code = 7'h52; // ASCII code for 'R'
-                 6: char_code = 7'h00; // ASCII code for ' '
-                 7: char_code = winner; // ASCII code for '1/2'
-                 8: char_code = 7'h00; // ASCII code for ' '
-                 9: char_code = 7'h57; // ASCII code for 'W'
-                 10: char_code = 7'h49; // ASCII code for 'I'
-                 11: char_code = 7'h4E; // ASCII code for 'N'
-                 12: char_code = 7'h53; // ASCII code for 'S'
+                 0: char_code = 7'h50; // code for 'P'
+                 1: char_code = 7'h4c; // code for 'L'
+                 2: char_code = 7'h41; // code for 'A'
+                 3: char_code = 7'h59; // code for 'Y'
+                 4: char_code = 7'h45; // code for 'E'
+                 5: char_code = 7'h52; // code for 'R'
+                 6: char_code = 7'h00; // code for ' '
+                 7: char_code = winner; // code for '1/2'
+                 8: char_code = 7'h00; // code for ' '
+                 9: char_code = 7'h57; // code for 'W'
+                 10: char_code = 7'h49; // code for 'I'
+                 11: char_code = 7'h4E; // code for 'N'
+                 12: char_code = 7'h53; // code for 'S'
                  default: char_code = 7'b0;
              endcase
          end else begin
              char_code = 7'b0;
+             char_line_nxt = 4'b0;
          end
      end else begin
          char_code = 7'b0;
+         char_line_nxt = 4'b0;
      end
      rom_addr = {char_code, char_line};
  end
@@ -128,36 +171,50 @@
  always_ff @(posedge clk) begin
      if (rst) begin
          game_out.rgb <= 12'h0_0_0;
+         char_line <= 4'b0;
      end else begin
          game_out.rgb <= rgb_nxt;
+         char_line <= char_line_nxt;
      end 
  end
  
  
  // RGB MUX
  always_comb begin
-     if (game_in.vblnk || game_in.hblnk) begin             // Blanking region:
-         rgb_nxt = 12'h0_0_0;                    // - make it it black.
-     end else if (state == menu_start) begin 
-         if(menu_on) begin
-             if(char_line_pixels[7 - ((game_in.hcount - MENU_X_POS) / SCALE) % CHAR_WIDTH]) begin
-                 rgb_nxt = 12'hF_0_F;         // - fioletowy napis MENU
-             end else begin
-                 rgb_nxt = game_in.rgb;
-             end 
-         end else begin
+     if (game_in.vblnk || game_in.hblnk) begin           
+         rgb_nxt = 12'h0_0_0;                   
+     end else if (state == MENU_START) begin 
+         if(title_on) begin
+             if(char_line_pixels[7 - ((game_in.hcount - TITLE_X_POS) / SCALE) % CHAR_WIDTH]) begin
+                 rgb_nxt = 12'hF_0_F; 
+             end else begin       
+                rgb_nxt = game_in.rgb;
+            end 
+         end else if (authors_on) begin 
+            if(char_line_pixels[7 - (game_in.hcount - AUTHORS_X_POS) % CHAR_WIDTH]) begin
+                rgb_nxt = 12'hF_0_F;       
+            end else begin
+                rgb_nxt = game_in.rgb;
+            end 
+         end else if (agh_on) begin 
+            if(char_line_pixels[7 - (game_in.hcount - AGH_X_POS) % CHAR_WIDTH]) begin
+                rgb_nxt = 12'h0_F_0; 
+            end else begin
+                rgb_nxt = game_in.rgb;
+            end 
+        end else begin
              rgb_nxt = game_in.rgb;
          end
-     end else if (state == game_over) begin 
+     end else if (state == GAME_OVER) begin 
          if(over_on) begin
              if(char_line_pixels[7 - ((game_in.hcount - OVER_X_POS) / SCALE) % CHAR_WIDTH]) begin
-                 rgb_nxt = 12'hF_0_F;      // - fioletowy napis GAME OVER
+                 rgb_nxt = 12'hF_0_F;  
              end else begin
                  rgb_nxt = game_in.rgb;
              end 
          end else if(winner_on) begin
              if(char_line_pixels[7 - ((game_in.hcount - WINNER_X_POS) / SCALE2) % CHAR_WIDTH]) begin
-                 rgb_nxt = 12'h0_F_0;       // - zielony napis PLAYER x WINS
+                 rgb_nxt = 12'h0_F_0;     
              end else begin
                  rgb_nxt = game_in.rgb;
              end 

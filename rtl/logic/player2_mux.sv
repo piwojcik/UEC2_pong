@@ -42,8 +42,8 @@
   */
  always_ff @(posedge clk) begin 
     if (rst) begin
-        x_ball_mux <= (HOR_PIXELS-BALLSIZE)/2;
-        y_ball_mux <= (VER_PIXELS-BALLSIZE)/2;
+        x_ball_mux <= (HOR_PIXELS-BALL_SIZE)/2;
+        y_ball_mux <= (VER_PIXELS-BALL_SIZE)/2;
         y_player2_mux <= (VER_PIXELS-PAD_HEIGHT)/2;
         y_player1_mux <= (VER_PIXELS-PAD_HEIGHT)/2;
     end else begin
