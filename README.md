@@ -1,4 +1,16 @@
-# uec2_example_project_RnD
+# uec2_project_pong
+
+## obługa projektu
+Ustawienie przełączników na płytce: 
+sw0 - obsługa klawiatury,
+sw0 i sw1 - tryb jednej płytki,
+sw2 - wymagany przełącznik dla gracza drugiego podczas komunikacji przez UART; 
+
+
+W celu rozpoczęcia gry obaj gracze muszą nacisnąć przycisk w górę. Po zakończonej rozgrywce aby powrócić do menu startowego należy nacisnąć przycisk w dół.   
+
+Do komunikacji UART należy podpiąć kable do JC0 i JB0 na obu płytkach.
+
 
 ## Klonowanie repozytorium
 
